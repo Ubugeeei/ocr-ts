@@ -5,6 +5,7 @@ module.exports = {
     "aran",
     "classfication",
     "citty",
+    "codegen",
     "consola",
     "dominik",
     "datagen",

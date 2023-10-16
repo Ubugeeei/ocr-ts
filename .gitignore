@@ -3,3 +3,4 @@ dist
 .cspellcache
 bin
 temp
+out

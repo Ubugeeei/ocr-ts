@@ -33,10 +33,6 @@ export const buildCli = async () => {
   // copy jTegaki.zip
   fs.copyFileSync(path.resolve("packages/cli/src/cmd/jTegaki/jTegaki.zip"), path.resolve(`${CLI_OUT_DIR}/jTegaki.zip`));
   finishedBuild(`${CLI_OUT_DIR}/jTegaki.zip)`);
-
-  // copy python script
-  fs.copyFileSync(path.resolve("packages/cli/src/cmd/datagen/datagen.py"), path.resolve(`${CLI_OUT_DIR}/datagen.py`));
-  finishedBuild(`${CLI_OUT_DIR}/datagen.py)`);
 };
 
 /**
