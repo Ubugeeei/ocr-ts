@@ -1,4 +1,4 @@
-export type TegakiStroke = [TargetChar, TargetCharStrokeLength, Array<Stroke>];
+export type TecackStroke = [TargetChar, TargetCharStrokeLength, Array<Stroke>];
 
 export type TargetChar = string;
 

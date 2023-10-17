@@ -95,7 +95,7 @@ importers:
 
   packages/shared: {}
 
-  packages/tegaki: {}
+  packages/tecack: {}
 
 packages:
 

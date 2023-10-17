@@ -1,13 +1,13 @@
-import { KANJI_DATA_SET } from "@tegaki/dataset";
-import { recognize } from "@tegaki/backend";
-import { createTegaki } from "@tegaki/frontend";
+import { KANJI_DATA_SET } from "@tecack/dataset";
+import { recognize } from "@tecack/backend";
+import { createTecack } from "@tecack/frontend";
 
-const tegaki = createTegaki(document);
-tegaki.init("tegaki-sample");
+const tecack = createTecack(document);
+tecack.init("tecack-sample");
 
 const recognizeBtn = document.getElementById("recognize-btn")!;
 recognizeBtn.addEventListener("click", () => {
-  const strokes = tegaki.getStrokes();
+  const strokes = tecack.getStrokes();
   const candidate = recognize(strokes, KANJI_DATA_SET);
   const candidateContainer = document.getElementById("candidate-container")!;
   candidateContainer.textContent = candidate.join(", ");
@@ -15,10 +15,10 @@ recognizeBtn.addEventListener("click", () => {
 
 const undoBtn = document.getElementById("undo-btn")!;
 undoBtn.addEventListener("click", () => {
-  tegaki.deleteLast();
+  tecack.deleteLast();
 });
 
 const eraseBtn = document.getElementById("erase-btn")!;
 eraseBtn.addEventListener("click", () => {
-  tegaki.erase();
+  tecack.erase();
 });

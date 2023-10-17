@@ -1,10 +1,10 @@
 import "./style.css";
 
-import { createTegaki } from "@tegaki/frontend";
-import { encodeStroke } from "@tegaki/shared";
+import { createTecack } from "@tecack/frontend";
+import { encodeStroke } from "@tecack/shared";
 
-const tegaki = createTegaki(document);
-tegaki.init("tegaki-sample");
+const tecack = createTecack(document);
+tecack.init("tecack-sample");
 
 let encode = false;
 const toggleEncodeInput = document.getElementById("toggle-encode-input")!;
@@ -14,7 +14,7 @@ toggleEncodeInput.addEventListener("click", e => {
 
 const recognizeBtn = document.getElementById("recognize-btn")!;
 recognizeBtn.addEventListener("click", async () => {
-  const strokes = tegaki.getStrokes();
+  const strokes = tecack.getStrokes();
   const candidate = await fetch(`http://localhost:3000/recognize${encode ? "-encoded" : ""}`, {
     method: "POST",
     body: JSON.stringify({ strokes: encode ? encodeStroke(strokes) : strokes }),
@@ -25,10 +25,10 @@ recognizeBtn.addEventListener("click", async () => {
 
 const undoBtn = document.getElementById("undo-btn")!;
 undoBtn.addEventListener("click", () => {
-  tegaki.deleteLast();
+  tecack.deleteLast();
 });
 
 const eraseBtn = document.getElementById("erase-btn")!;
 eraseBtn.addEventListener("click", () => {
-  tegaki.erase();
+  tecack.erase();
 });

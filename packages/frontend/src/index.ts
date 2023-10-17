@@ -1,13 +1,13 @@
-import type { Stroke } from "@tegaki/shared";
+import type { Stroke } from "@tecack/shared";
 import { CanvasCtxNotFoundError, InitializeError } from "./errors";
 
-export interface Tegaki {
+export interface Tecack {
   /**
-   * call Tegaki.init(id) to initialize a canvas as a Tegaki
+   * call Tecack.init(id) to initialize a canvas as a Tecack
    *
    * `id` must be the id attribute of the canvas.
    *
-   * ex: Tegaki.init('canvas-1');
+   * ex: Tecack.init('canvas-1');
    */
   init: (id: string) => void | InitializeError;
   draw: (color?: string) => void | CanvasCtxNotFoundError;
@@ -18,7 +18,7 @@ export interface Tegaki {
   /**
    * redraw to current canvas according to
    *
-   * what is currently stored in Tegaki.recordedPattern
+   * what is currently stored in Tecack.recordedPattern
    *
    * add numbers to each stroke
    */
@@ -28,7 +28,7 @@ export interface Tegaki {
   normalizeLinear: () => void;
 }
 
-export function createTegaki(document: Document): Tegaki {
+export function createTecack(document: Document): Tecack {
   // private properties
   let _canvasId: string;
   let _canvas: HTMLCanvasElement;
@@ -59,7 +59,7 @@ export function createTegaki(document: Document): Tegaki {
   let _s: string;
 
   // NOTE: Initialized with null or undefined to ensure compatibility with pre-fork implementations.
-  const tegaki: Tegaki = {
+  const tecack: Tecack = {
     init: id => {
       _canvasId = id;
       const c = document.getElementById(_canvasId);
@@ -155,8 +155,8 @@ export function createTegaki(document: Document): Tegaki {
       _ctx.lineTo(_currX, _currY);
       _ctx.strokeStyle = color ? color : "#333";
       _ctx.lineCap = "round";
-      //Tegaki.ctx.lineJoin = "round";
-      //Tegaki.ctx.lineMiter = "round";
+      //Tecack.ctx.lineJoin = "round";
+      //Tecack.ctx.lineMiter = "round";
       _ctx.lineWidth = 4;
       _ctx.stroke();
       _ctx.closePath();
@@ -175,7 +175,7 @@ export function createTegaki(document: Document): Tegaki {
 
           _currX = stroke_i[j + 1][0];
           _currY = stroke_i[j + 1][1];
-          tegaki.draw();
+          tecack.draw();
         }
       }
       _recordedPattern.pop();
@@ -205,7 +205,7 @@ export function createTegaki(document: Document): Tegaki {
 
           _currX = stroke_i[j + 1][0];
           _currY = stroke_i[j + 1][1];
-          tegaki.draw(STROKE_COLORS[i]);
+          tecack.draw(STROKE_COLORS[i]);
         }
       }
 
@@ -274,7 +274,7 @@ export function createTegaki(document: Document): Tegaki {
         normalizedPattern.push(normalized_stroke_i);
       }
       _recordedPattern = normalizedPattern;
-      tegaki.redraw();
+      tecack.redraw();
     },
 
     copyStuff: () => {
@@ -301,7 +301,7 @@ export function createTegaki(document: Document): Tegaki {
           _prevY = stroke_i[j][1];
           _currX = stroke_i[j + 1][0];
           _currY = stroke_i[j + 1][1];
-          tegaki.draw();
+          tecack.draw();
         }
       }
     },
@@ -368,7 +368,7 @@ export function createTegaki(document: Document): Tegaki {
         _currY = (isTouch ? touch!.clientY : e.clientY) - rect.top;
         _currentLine?.push([_prevX, _prevY]);
         _currentLine?.push([_currX, _currY]);
-        tegaki.draw();
+        tecack.draw();
       }
     }
   };
@@ -377,7 +377,7 @@ export function createTegaki(document: Document): Tegaki {
    *
    * modifies hex colors to darken or lighten them
    *
-   * ex: Tegaki.alterHex(Tegaki.strokeColors[0], 60, 'dec'); // decrement all colors by 60 (use 'inc' to increment)
+   * ex: Tecack.alterHex(Tecack.strokeColors[0], 60, 'dec'); // decrement all colors by 60 (use 'inc' to increment)
    */
   const _alterHex = (hex: string, number: number, action: "inc" | "dec"): string => {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
@@ -417,13 +417,13 @@ export function createTegaki(document: Document): Tegaki {
         // undo
         case "z":
           e.preventDefault();
-          tegaki.deleteLast();
+          tecack.deleteLast();
           break;
 
         // erase
         case "x":
           e.preventDefault();
-          tegaki.erase();
+          tecack.erase();
           break;
 
         default:
@@ -437,7 +437,7 @@ export function createTegaki(document: Document): Tegaki {
 
   const isTouchEvent = (e: unknown): e is TouchEvent => typeof e === "object" && e !== null && "changedTouches" in e;
 
-  return tegaki;
+  return tecack;
 }
 
 // color coded stroke colors (for 30 strokes)

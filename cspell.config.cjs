@@ -12,6 +12,7 @@ module.exports = {
     "drawio",
     "hono",
     "outdir",
+    "tecack",
     "tegaki",
     "ubugeeei",
     "unicodegen",
