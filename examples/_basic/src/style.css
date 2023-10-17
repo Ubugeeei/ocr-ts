@@ -1,7 +1,20 @@
+#app {
+  margin-top: 4rem;
+  color: #1b1b1faa;
+}
+
 canvas {
-  border: 1px solid #000;
+  border: 3px solid #1b1b1faa;
   margin: 0 auto;
   display: block;
+}
+
+#candidate-container {
+  margin: 1rem auto;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  font-size: 2rem;
 }
 
 .controllers {

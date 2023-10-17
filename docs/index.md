@@ -6,6 +6,7 @@ hero:
   name: Tecack
   text: Handwriting made simple
   tagline: The modern hand-writing recognition engine work on browser.
+  image: /tecack.gif
   actions:
     - theme: brand
       text: Get Started
