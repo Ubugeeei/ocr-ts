@@ -5,7 +5,7 @@ layout: home
 hero:
   name: Tecack
   text: Handwriting made simple
-  tagline: The modern hand-writing recognition engine work on browser.
+  tagline: The hand-writing recognition engine built with TypeScript. Forked from KanjiCanvas
   image: /tecack.gif
   actions:
     - theme: brand
@@ -14,6 +14,9 @@ hero:
     - theme: alt
       text: View on Github
       link: https://github.com/Ubugeeei/tecack
+    - theme: alt
+      text: KanjiCanvas (Original Project)
+      link: https://github.com/asdfjkl/kanjicanvas
 
 features:
   - title: Simply Setup
