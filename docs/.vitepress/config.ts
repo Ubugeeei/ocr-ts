@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "tecack docs",
+  title: "Tecack",
   description: "A VitePress Site",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -13,11 +13,34 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: "Examples",
+        text: "Introduction",
+        collapsed: false,
         items: [
-          { text: "Markdown Examples", link: "/markdown-examples" },
-          { text: "Runtime API Examples", link: "/api-examples" },
+          { text: "What is Tecack", link: "/introduction/what-is-tecack" },
+          { text: "Getting Started", link: "/introduction/getting-started" },
         ],
+      },
+      {
+        text: "Reference",
+        collapsed: false,
+        items: [
+          { text: "Packages", link: "/reference/packages" },
+          { text: "API", link: "/reference/apis" },
+          { text: "Stroke Data", link: "/reference/stroke-data" },
+        ],
+      },
+      {
+        text: "Tools",
+        collapsed: false,
+        items: [
+          { text: "jTegaki", link: "/tools/j-tegaki" },
+          { text: "datagen", link: "/tools/datagen" },
+          { text: "unicodegen", link: "/tools/unicodegen" },
+        ],
+      },
+      {
+        text: "Contribution",
+        link: "/contribution",
       },
     ],
 

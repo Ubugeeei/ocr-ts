@@ -12,6 +12,8 @@ module.exports = {
     "drawio",
     "hono",
     "outdir",
+    "snipet",
+    "snipets",
     "tecack",
     "tegaki",
     "ubugeeei",
