@@ -6,7 +6,8 @@
     "datagen": "node ../../packages/cli/bin/bin.js datagen",
     "datagen:ts": "pnpm run datagen -d=dataset -o=out/data.ts",
     "datagen:js": "pnpm run datagen -d=dataset -o=out/data.js --ts=false",
-    "datagen:cjs": "pnpm run datagen -d=dataset -o=out/data.cjs --ts=false --cjs"
+    "datagen:cjs": "pnpm run datagen -d=dataset -o=out/data.cjs --ts=false --cjs",
+    "datagen:named": "pnpm run datagen -d=dataset -o=out/named.ts --n=MY_TEGAKI_DATA"
   },
   "author": "Ubugeeei <ubuge1122@gmail.com>",
   "license": "MIT"
