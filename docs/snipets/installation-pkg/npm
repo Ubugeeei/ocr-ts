@@ -1,0 +1,5 @@
+$ npm add @tecack/frontend
+$ npm add @tecack/backend
+$ npm add @tecack/dataset
+$ npm add @tecack/shared
+$ npm add @tecack/tools

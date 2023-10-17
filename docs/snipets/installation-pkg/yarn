@@ -1,0 +1,5 @@
+$ yarn add @tecack/frontend
+$ yarn add @tecack/backend
+$ yarn add @tecack/dataset
+$ yarn add @tecack/shared
+$ yarn add @tecack/tools
