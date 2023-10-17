@@ -1,12 +1,10 @@
 {
-  "name": "basic",
+  "name": "@examples/basic",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "start": "vite"
   },
   "devDependencies": {
     "typescript": "^5.0.2",

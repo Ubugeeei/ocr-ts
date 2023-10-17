@@ -1,4 +1,5 @@
 {
+  "name": "@examples/sever",
   "scripts": {
     "start": "tsx src/index.ts"
   },
