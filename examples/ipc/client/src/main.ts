@@ -1,7 +1,7 @@
 import "./style.css";
 
 import { createTegaki } from "@tegaki/frontend";
-import { encodeStroke } from "@tegaki/utils";
+import { encodeStroke } from "@tegaki/shared";
 
 const tegaki = createTegaki(document);
 tegaki.init("tegaki-sample");

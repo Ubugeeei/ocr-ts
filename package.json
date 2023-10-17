@@ -27,7 +27,9 @@
     "fmt": "prettier",
     "lint": "ESLINT_USE_FLAT_CONFIG=true eslint",
     "spell-check": "cspell lint \"**\" --no-progress --show-suggestions --show-context --cache",
-    "play": "cd examples/_basic && pnpm run dev"
+    "play": "pnpm -F=@examples/basic run start",
+    "play:client": "pnpm -F=@examples/client run start",
+    "play:server": "pnpm -F=@examples/sever run start"
   },
   "lint-staged": {
     "*": [

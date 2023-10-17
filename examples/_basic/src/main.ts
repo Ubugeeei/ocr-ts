@@ -1,8 +1,6 @@
-import "./style.css";
-
-import { KANJI_DATA_SET } from "tegaki/dataset";
-import { recognize } from "tegaki/backend";
-import { createTegaki } from "tegaki/frontend";
+import { KANJI_DATA_SET } from "@tegaki/dataset";
+import { recognize } from "@tegaki/backend";
+import { createTegaki } from "@tegaki/frontend";
 
 const tegaki = createTegaki(document);
 tegaki.init("tegaki-sample");

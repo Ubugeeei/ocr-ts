@@ -4,7 +4,7 @@ import { cors } from "hono/cors";
 
 import { KANJI_DATA_SET } from "@tegaki/dataset";
 import { recognize } from "@tegaki/backend";
-import { DecodeError, decodeStroke } from "@tegaki/utils";
+import { DecodeError, decodeStroke } from "@tegaki/shared";
 
 const app = new Hono();
 
