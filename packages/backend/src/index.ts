@@ -1,10 +1,10 @@
 import type { Position, Stroke, TegakiStroke } from "@tegaki/shared";
 
-type M10 = (pattern: Array<Stroke>) => number;
-type M01 = (pattern: Array<Stroke>) => number;
-type M00 = (pattern: Array<Stroke>) => number;
-type Mu20 = (pattern: Array<Stroke>, xc: number) => number;
-type Mu02 = (pattern: Array<Stroke>, yc: number) => number;
+type M10 = (pattern: Readonly<Array<Stroke>>) => number;
+type M01 = (pattern: Readonly<Array<Stroke>>) => number;
+type M00 = (pattern: Readonly<Array<Stroke>>) => number;
+type Mu20 = (pattern: Readonly<Array<Stroke>>, xc: number) => number;
+type Mu02 = (pattern: Readonly<Array<Stroke>>, yc: number) => number;
 
 type Aran = (width: number, height: number) => number;
 type Transform = (pattern: Array<Stroke>, x_: number, y_: number) => Array<Stroke>;
@@ -41,38 +41,21 @@ type ComputeWholeDistanceWeighted = (pattern1: Array<Stroke>, pattern2: Array<St
 type CoarseClassification = (inputPattern: Array<Stroke>) => Stroke;
 type FineClassification = (inputPattern: Array<Stroke>, inputCandidates: Stroke) => string[];
 
-type Tegaki = {
-  dataset: Array<TegakiStroke>;
-  input: Array<Stroke>;
-  newHeight: number;
-  newWidth: number;
-  oldHeight: number;
-  oldWidth: number;
-  xMin: number;
-  xMax: number;
-  yMin: number;
-  yMax: number;
-  x: number;
-  y: number;
-  dii: number;
-  j_of_i: number;
-  minDist: number;
-  min_j: number;
-};
-
-export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): string[] {
-  // call Tegaki.init(id) to initialize a canvas as a Tegaki
-  // `id` must be the id attribute of the canvas.
-  // ex: Tegaki.init('canvas-1');
-  const Tegaki = new Object() as Tegaki;
-
-  // patterns loaded externally from ref-patterns.js (always run after Tegaki is defined)
-
-  // init
-  Tegaki.input = input;
-  Tegaki.dataset = dataset;
-
-  // helper functions for moment normalization
+export function recognize(input: Readonly<Array<Stroke>>, dataset: Readonly<Array<TegakiStroke>>): string[] {
+  let newHeight: number;
+  let newWidth: number;
+  let oldHeight: number;
+  let oldWidth: number;
+  let xMin: number;
+  let xMax: number;
+  let yMin: number;
+  let yMax: number;
+  let x: number;
+  let y: number;
+  let dii: number;
+  let j_of_i: number;
+  let minDist: number;
+  let min_j: number;
 
   const m10: M10 = pattern => {
     var sum = 0;
@@ -164,52 +147,52 @@ export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): s
 
   // main function for moment normalization
   const momentNormalize: MomentNormalize = () => {
-    Tegaki.newHeight = 256;
-    Tegaki.newWidth = 256;
-    Tegaki.xMin = 256;
-    Tegaki.xMax = 0;
-    Tegaki.yMin = 256;
-    Tegaki.yMax = 0;
+    newHeight = 256;
+    newWidth = 256;
+    xMin = 256;
+    xMax = 0;
+    yMin = 256;
+    yMax = 0;
     // first determine drawn character width / length
-    for (var i = 0; i < Tegaki.input.length; i++) {
-      var stroke_i = Tegaki.input[i];
+    for (var i = 0; i < input.length; i++) {
+      var stroke_i = input[i];
       for (var j = 0; j < stroke_i.length; j++) {
-        Tegaki.x = stroke_i[j][0];
-        Tegaki.y = stroke_i[j][1];
-        if (Tegaki.x < Tegaki.xMin) {
-          Tegaki.xMin = Tegaki.x;
+        x = stroke_i[j][0];
+        y = stroke_i[j][1];
+        if (x < xMin) {
+          xMin = x;
         }
-        if (Tegaki.x > Tegaki.xMax) {
-          Tegaki.xMax = Tegaki.x;
+        if (x > xMax) {
+          xMax = x;
         }
-        if (Tegaki.y < Tegaki.yMin) {
-          Tegaki.yMin = Tegaki.y;
+        if (y < yMin) {
+          yMin = y;
         }
-        if (Tegaki.y > Tegaki.yMax) {
-          Tegaki.yMax = Tegaki.y;
+        if (y > yMax) {
+          yMax = y;
         }
       }
     }
-    Tegaki.oldHeight = Math.abs(Tegaki.yMax - Tegaki.yMin);
-    Tegaki.oldWidth = Math.abs(Tegaki.xMax - Tegaki.xMin);
+    oldHeight = Math.abs(yMax - yMin);
+    oldWidth = Math.abs(xMax - xMin);
 
-    var r2 = aran(Tegaki.oldWidth, Tegaki.oldHeight);
+    var r2 = aran(oldWidth, oldHeight);
 
-    var aranWidth = Tegaki.newWidth;
-    var aranHeight = Tegaki.newHeight;
+    var aranWidth = newWidth;
+    var aranHeight = newHeight;
 
-    if (Tegaki.oldHeight > Tegaki.oldWidth) {
-      aranWidth = r2 * Tegaki.newWidth;
+    if (oldHeight > oldWidth) {
+      aranWidth = r2 * newWidth;
     } else {
-      aranHeight = r2 * Tegaki.newHeight;
+      aranHeight = r2 * newHeight;
     }
 
-    var xOffset = (Tegaki.newWidth - aranWidth) / 2;
-    var yOffset = (Tegaki.newHeight - aranHeight) / 2;
+    var xOffset = (newWidth - aranWidth) / 2;
+    var yOffset = (newHeight - aranHeight) / 2;
 
-    var m00_ = m00(Tegaki.input);
-    var m01_ = m01(Tegaki.input);
-    var m10_ = m10(Tegaki.input);
+    var m00_ = m00(input);
+    var m01_ = m01(input);
+    var m10_ = m10(input);
 
     var xc_ = m10_ / m00_;
     var yc_ = m01_ / m00_;
@@ -217,15 +200,15 @@ export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): s
     var xc_half = aranWidth / 2;
     var yc_half = aranHeight / 2;
 
-    var mu20_ = mu20(Tegaki.input, xc_);
-    var mu02_ = mu02(Tegaki.input, yc_);
+    var mu20_ = mu20(input, xc_);
+    var mu02_ = mu02(input, yc_);
 
     var alpha = aranWidth / (4 * Math.sqrt(mu20_ / m00_)) || 0;
     var beta = aranHeight / (4 * Math.sqrt(mu02_ / m00_)) || 0;
 
     var nf = new Array();
-    for (var i = 0; i < Tegaki.input.length; i++) {
-      var si = Tegaki.input[i];
+    for (var i = 0; i < input.length; i++) {
+      var si = input[i];
       var nsi = new Array();
       for (var j = 0; j < si.length; j++) {
         var newX = alpha * (si[j][0] - xc_) + xc_half;
@@ -289,19 +272,6 @@ export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): s
     return extractedPattern;
   };
 
-  /* test extraction function
-   Tegaki.extractTest = function () {
-      //var ex = Tegaki.extractFeatures(Tegaki.input, 20.);
-	  //Tegaki.input = ex;
-
-      //Tegaki.redraw(id);
-
-	  var norm = normalizeLinearTest(test4);
-	  var ex = Tegaki.extractFeatures(norm, 20.);
-	  //console.log(ex);
-
-   }*/
-
   const endPointDistance: EndPointDistance = (pattern1, pattern2) => {
     var dist = 0;
     var l1 = typeof pattern1 == "undefined" ? 0 : pattern1.length;
@@ -361,8 +331,8 @@ export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): s
     var a = getLargerAndSize(pattern1, pattern2);
     var dist = 0;
     for (var i = 0; i < a[3]; i++) {
-      Tegaki.j_of_i = parseInt((parseInt((a[2] / a[3]) as any) * i) as any);
-      var x1y1 = a[0][Tegaki.j_of_i];
+      j_of_i = parseInt((parseInt((a[2] / a[3]) as any) * i) as any);
+      var x1y1 = a[0][j_of_i];
       var x2y2 = a[1][i];
       dist += Math.abs(x1y1[0] - x2y2[0]) + Math.abs(x1y1[1] - x2y2[1]);
     }
@@ -384,19 +354,19 @@ export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): s
       free[i] = true;
     }
     for (var i = 0; i < a[3]; i++) {
-      Tegaki.minDist = 10000000;
-      Tegaki.min_j = -1;
+      minDist = 10000000;
+      min_j = -1;
       for (var j = 0; j < a[2]; j++) {
         if (free[j] == true) {
           var d = distanceMetric(a[0][j], a[1][i]);
-          if (d < Tegaki.minDist) {
-            Tegaki.minDist = d;
-            Tegaki.min_j = j;
+          if (d < minDist) {
+            minDist = d;
+            min_j = j;
           }
         }
       }
-      free[Tegaki.min_j] = false;
-      map[Tegaki.min_j] = i;
+      free[min_j] = false;
+      map[min_j] = i;
     }
     return map;
   };
@@ -412,7 +382,7 @@ export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): s
     for (var l = 0; l < L; l++) {
       for (var i = 0; i < map.length; i++) {
         if (map[i] != -1) {
-          Tegaki.dii = distanceMetric(a[0][i], a[1][map[i]]);
+          dii = distanceMetric(a[0][i], a[1][map[i]]);
           for (var j = 0; j < map.length; j++) {
             // we need to check again, since
             // manipulation of map[i] can occur within
@@ -422,18 +392,18 @@ export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): s
                 var djj = distanceMetric(a[0][j], a[1][map[j]]);
                 var dij = distanceMetric(a[0][j], a[1][map[i]]);
                 var dji = distanceMetric(a[0][i], a[1][map[j]]);
-                if (dji + dij < Tegaki.dii + djj) {
+                if (dji + dij < dii + djj) {
                   var map_j = map[j];
                   map[j] = map[i];
                   map[i] = map_j;
-                  Tegaki.dii = dij;
+                  dii = dij;
                 }
               } else {
                 var dij = distanceMetric(a[0][j], a[1][map[i]]);
-                if (dij < Tegaki.dii) {
+                if (dij < dii) {
                   map[j] = map[i];
                   map[i] = -1;
-                  Tegaki.dii = dij;
+                  dii = dij;
                 }
               }
             }
@@ -595,10 +565,10 @@ export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): s
   const coarseClassification: CoarseClassification = inputPattern => {
     var inputLength = inputPattern.length;
     var candidates: Stroke = [];
-    for (var i = 0; i < Tegaki.dataset.length; i++) {
-      var iLength = Tegaki.dataset[i][1];
+    for (var i = 0; i < dataset.length; i++) {
+      var iLength = dataset[i][1];
       if (inputLength < iLength + 2 && inputLength > iLength - 3) {
-        var iPattern = Tegaki.dataset[i][2];
+        var iPattern = dataset[i][2];
         var iMap = getMap(iPattern, inputPattern, endPointDistance);
         iMap = completeMap(iPattern, inputPattern, endPointDistance, iMap) as Position;
         var dist = computeDistance(iPattern, inputPattern, endPointDistance, iMap);
@@ -615,17 +585,7 @@ export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): s
     candidates.sort(function (a, b) {
       return a[1] - b[1];
     });
-    /*
-	   var outStr = "";
-	   for(var i=0;i<candidates.length;i++) {
-	       outStr += candidates[i][0];
-		   outStr += " ";
-		   outStr += candidates[i][1];
-		   outStr += Tegaki.dataset[candidates[i][0]][0];
-		   outStr += "|";
-	   }
-	   document.getElementById("coarseCandidateList").innerHTML = outStr;
-	   */
+
     return candidates;
   };
 
@@ -636,13 +596,13 @@ export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): s
     var candidates = [];
     for (var i = 0; i < Math.min(inputCandidates.length, 100); i++) {
       var j = inputCandidates[i][0];
-      var iLength = Tegaki.dataset[j][1];
-      var iPattern = Tegaki.dataset[j][2];
+      var iLength = dataset[j][1];
+      var iPattern = dataset[j][2];
       if (inputLength < iLength + 2 && inputLength > iLength - 3) {
         var iMap = getMap(iPattern, inputPattern, initialDistance);
 
         iMap = completeMap(iPattern, inputPattern, wholeWholeDistance, iMap) as Position;
-        if (Tegaki.dataset[j][0] == "委") {
+        if (dataset[j][0] == "委") {
           console.log("finished imap, fine:");
           console.log(iMap);
           console.log("weight:");
@@ -665,7 +625,7 @@ export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): s
     });
     const outputs: string[] = [];
     for (var i = 0; i < Math.min(candidates.length, 10); i++) {
-      outputs.push(Tegaki.dataset[candidates[i][0]][0]);
+      outputs.push(dataset[candidates[i][0]][0]);
     }
 
     return outputs;
@@ -676,8 +636,8 @@ export function recognize(input: Array<Stroke>, dataset: Array<TegakiStroke>): s
 
     var extractedFeatures = extractFeatures(mn, 20);
 
-    var map = getMap(extractedFeatures, Tegaki.dataset[0][2], endPointDistance);
-    map = completeMap(extractedFeatures, Tegaki.dataset[0][2], endPointDistance, map) as Position;
+    var map = getMap(extractedFeatures, dataset[0][2], endPointDistance);
+    map = completeMap(extractedFeatures, dataset[0][2], endPointDistance, map) as Position;
 
     var candidates = coarseClassification(extractedFeatures);
     return fineClassification(extractedFeatures, candidates);
