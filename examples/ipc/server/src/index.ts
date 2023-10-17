@@ -2,9 +2,9 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 
-import { KANJI_DATA_SET } from "@tegaki/dataset";
-import { recognize } from "@tegaki/backend";
-import { DecodeError, decodeStroke } from "@tegaki/shared";
+import { KANJI_DATA_SET } from "@tecack/dataset";
+import { recognize } from "@tecack/backend";
+import { DecodeError, decodeStroke } from "@tecack/shared";
 
 const app = new Hono();
 

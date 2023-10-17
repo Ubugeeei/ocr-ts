@@ -11,8 +11,8 @@
     "allowJs": true,
     "rootDir": ".",
     "paths": {
-      "@tegaki/*": ["./packages/*/src"],
-      "tegaki": ["./packages/tegaki/src"]
+      "@tecack/*": ["./packages/*/src"],
+      "tecack": ["./packages/tecack/src"]
     }
   },
   "include": ["./packages/**/src/*.ts"]

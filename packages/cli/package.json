@@ -1,9 +1,9 @@
 {
-  "name": "@tegaki/cli",
+  "name": "@tecack/cli",
   "version": "0.0.1",
-  "description": "@tegaki/cli",
+  "description": "@tecack/cli",
   "bin": {
-    "tegaki": "./bin/bin.js"
+    "tecack": "./bin/bin.js"
   },
   "author": "Ubugeeei <ubuge1122@gmail.com>",
   "license": "MIT",

@@ -1,4 +1,4 @@
-import type { Position, Stroke, TegakiStroke } from "@tegaki/shared";
+import type { Position, Stroke, TecackStroke } from "@tecack/shared";
 
 type M10 = (pattern: Readonly<Array<Stroke>>) => number;
 type M01 = (pattern: Readonly<Array<Stroke>>) => number;
@@ -41,7 +41,7 @@ type ComputeWholeDistanceWeighted = (pattern1: Array<Stroke>, pattern2: Array<St
 type CoarseClassification = (inputPattern: Array<Stroke>) => Stroke;
 type FineClassification = (inputPattern: Array<Stroke>, inputCandidates: Stroke) => string[];
 
-export function recognize(input: Readonly<Array<Stroke>>, dataset: Readonly<Array<TegakiStroke>>): string[] {
+export function recognize(input: Readonly<Array<Stroke>>, dataset: Readonly<Array<TecackStroke>>): string[] {
   let newHeight: number;
   let newWidth: number;
   let oldHeight: number;

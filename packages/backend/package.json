@@ -1,7 +1,7 @@
 {
-  "name": "@tegaki/backend",
+  "name": "@tecack/backend",
   "version": "0.0.1",
-  "description": "@tegaki/backend",
+  "description": "@tecack/backend",
   "main": "dist/index.js",
   "keywords": [],
   "author": "Ubugeeei <ubuge1122@gmail.com>",

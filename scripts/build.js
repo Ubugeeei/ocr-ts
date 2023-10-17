@@ -42,12 +42,12 @@ export const clearCliSync = () => {
   rimraf.sync(CLI_OUT_DIR);
 };
 
-const PACKAGES = ["tegaki", "frontend", "backend", "dataset", "shared"];
+const PACKAGES = ["tecack", "frontend", "backend", "dataset", "shared"];
 
 /**
  * @type {() => PromiseLike<import('esbuild').BuildResult<{ entryPoints: string, outdir: string }>>[]}
  */
-export const buildTegaki = () =>
+export const buildTecack = () =>
   PACKAGES.map(pkg => {
     /**
      * @type {import('esbuild').BuildOptions}
@@ -64,16 +64,16 @@ export const buildTegaki = () =>
 /**
  * @type {function(): void}
  */
-export const clearTegakiSync = () => {
+export const clearTecackSync = () => {
   PACKAGES.map(pkg => `packages/${pkg}/dist`).forEach(dir => rimraf.sync(dir));
 };
 
 (async function main() {
   console.log("clear dist...");
-  await Promise.allSettled([clearCliSync(), clearTegakiSync()]);
+  await Promise.allSettled([clearCliSync(), clearTecackSync()]);
   console.log(`${green("✔︎")} finished clearing dist`);
-  console.log("building tegaki...");
-  const buildingTegaki = buildTegaki();
+  console.log("building tecack...");
+  const buildingTecack = buildTecack();
   const buildingCli = buildCli();
-  await Promise.all([...buildingTegaki, buildingCli]);
+  await Promise.all([...buildingTecack, buildingCli]);
 })();

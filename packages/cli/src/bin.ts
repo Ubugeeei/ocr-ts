@@ -4,7 +4,7 @@ import { openJTegaki } from "./cmd/jTegaki";
 import { datagen } from "./cmd/datagen";
 
 const main = defineCommand({
-  meta: { name: "tegaki cli tools" },
+  meta: { name: "tecack cli tools" },
   async run({ rawArgs }) {
     const [command] = rawArgs;
     switch (command) {
@@ -24,7 +24,7 @@ const main = defineCommand({
         });
         break;
       default: {
-        console.log(`Usage: tegaki <command> [options]
+        console.log(`Usage: tecack <command> [options]
 available commands:
   - unicodegen
   - jTegaki

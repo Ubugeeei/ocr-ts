@@ -1,4 +1,4 @@
-# tegaki
+# tecack
 
 A modern handwriting recognition library
 
