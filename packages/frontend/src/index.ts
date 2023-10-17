@@ -24,6 +24,7 @@ export interface Tegaki {
    */
   redraw: () => void | CanvasCtxNotFoundError;
   getStrokes: () => Readonly<Array<Stroke>>;
+  restoreFromStrokes(strokesMut: Array<Stroke>): void;
   normalizeLinear: () => void;
 }
 
@@ -289,6 +290,20 @@ export function createTegaki(document: Document): Tegaki {
 
     getStrokes: () => {
       return _recordedPattern;
+    },
+
+    restoreFromStrokes: strokesMut => {
+      _recordedPattern = strokesMut;
+      for (var i = 0; i < _recordedPattern.length; i++) {
+        var stroke_i = _recordedPattern[i];
+        for (var j = 0; j < stroke_i.length - 1; j++) {
+          _prevX = stroke_i[j][0];
+          _prevY = stroke_i[j][1];
+          _currX = stroke_i[j + 1][0];
+          _currY = stroke_i[j + 1][1];
+          tegaki.draw();
+        }
+      }
     },
   };
 
