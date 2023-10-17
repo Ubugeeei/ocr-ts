@@ -1509,14 +1509,14 @@ packages:
       resolve-from: 5.0.0
     dev: true
 
-  /tools-cursor@4.0.0:
+  /cli-cursor@4.0.0:
     resolution: {integrity: sha512-VGtlMu3x/4DOtIUwEkRezxUZ2lBacNJCHash0N0WeZDBS+7Ux1dm3XWAgWYxLJFMMdOeXMHXorshEFhbMSGelg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       restore-cursor: 4.0.0
     dev: true
 
-  /tools-truncate@3.1.0:
+  /cli-truncate@3.1.0:
     resolution: {integrity: sha512-wfOBkjXteqSnI59oPcJkcPl/ZmwvMMOj340qUIY1SKZCv0B9Cf4D4fAucRkIKQmsIuYK3x1rrgU7MeGRruiuiA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
@@ -2389,7 +2389,7 @@ packages:
     resolution: {integrity: sha512-nz+7hwgbDp8eWNoDgzdl4hA/xDSLrNRzPu1TLgOYs6l5Y+Ma6zVWWy9Oyt9TQFONwKoSPoka3H50D3vD5EuNwg==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      tools-truncate: 3.1.0
+      cli-truncate: 3.1.0
       colorette: 2.0.20
       eventemitter3: 5.0.1
       log-update: 5.0.1
@@ -2420,7 +2420,7 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       ansi-escapes: 5.0.0
-      tools-cursor: 4.0.0
+      cli-cursor: 4.0.0
       slice-ansi: 5.0.0
       strip-ansi: 7.1.0
       wrap-ansi: 8.1.0
