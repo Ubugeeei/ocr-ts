@@ -12,7 +12,7 @@ const green = str => `\x1b[32m${str}\x1b[0m`;
 /** @type {(dir: string) => void} */
 const finishedBuild = dir => console.log(`${green("✔︎")} build: ${blue(dir)}`);
 
-const CLI_OUT_DIR = `packages/cli/bin`;
+const CLI_OUT_DIR = `packages/tools/bin`;
 
 /**
  * @type {() => PromiseLike<void>}
@@ -22,7 +22,7 @@ export const buildCli = async () => {
    * @type {import('esbuild').BuildOptions}
    */
   await esbuild.build({
-    entryPoints: [path.resolve("packages/cli/src/bin")],
+    entryPoints: [path.resolve("packages/tools/src/bin")],
     bundle: true,
     outdir: CLI_OUT_DIR,
     target: "node18",
@@ -31,7 +31,10 @@ export const buildCli = async () => {
   finishedBuild(CLI_OUT_DIR);
 
   // copy jTegaki.zip
-  fs.copyFileSync(path.resolve("packages/cli/src/cmd/jTegaki/jTegaki.zip"), path.resolve(`${CLI_OUT_DIR}/jTegaki.zip`));
+  fs.copyFileSync(
+    path.resolve("packages/tools/src/cmd/jTegaki/jTegaki.zip"),
+    path.resolve(`${CLI_OUT_DIR}/jTegaki.zip`),
+  );
   finishedBuild(`${CLI_OUT_DIR}/jTegaki.zip)`);
 };
 

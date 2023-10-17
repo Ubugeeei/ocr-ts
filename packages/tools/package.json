@@ -1,7 +1,7 @@
 {
-  "name": "@tecack/cli",
+  "name": "@tecack/tools",
   "version": "0.0.1",
-  "description": "@tecack/cli",
+  "description": "@tecack/tools",
   "bin": {
     "tecack": "./bin/bin.js"
   },

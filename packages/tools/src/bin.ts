@@ -4,7 +4,7 @@ import { openJTegaki } from "./cmd/jTegaki";
 import { datagen } from "./cmd/datagen";
 
 const main = defineCommand({
-  meta: { name: "tecack cli tools" },
+  meta: { name: "tecack tools tools" },
   async run({ rawArgs }) {
     const [command] = rawArgs;
     switch (command) {

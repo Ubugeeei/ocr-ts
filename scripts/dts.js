@@ -1,4 +1,4 @@
-// copy temp/*.dts files to packages/cli/bin, packages/**/dist
+// copy temp/*.dts files to packages/tools/bin, packages/**/dist
 
 import fs from "node:fs";
 
@@ -23,7 +23,7 @@ const getDtsPaths = dir => {
 const getTargetFiles = pathList =>
   pathList.map(it => {
     const rooted = it.replace(/^temp\//, "");
-    const dist_ed = rooted.replace(/\/src\//, `/${/^packages\/cli\/+/.test(rooted) ? "bin" : "dist"}/`);
+    const dist_ed = rooted.replace(/\/src\//, `/${/^packages\/tools\/+/.test(rooted) ? "bin" : "dist"}/`);
     const flattened = dist_ed
       .split("/")
       .reduce((acc, cur, i) => {

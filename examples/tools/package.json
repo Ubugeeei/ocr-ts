@@ -1,9 +1,9 @@
 {
-  "name": "cli-example",
+  "name": "@example/tools",
   "version": "0.0.1",
   "scripts": {
-    "tecack": "node ../../packages/cli/bin/bin.js",
-    "datagen": "node ../../packages/cli/bin/bin.js datagen",
+    "tecack": "node ../../packages/tools/bin/bin.js",
+    "datagen": "node ../../packages/tools/bin/bin.js datagen",
     "datagen:ts": "pnpm run datagen -d=dataset -o=out/data.ts",
     "datagen:js": "pnpm run datagen -d=dataset -o=out/data.js --ts=false",
     "datagen:cjs": "pnpm run datagen -d=dataset -o=out/data.cjs --cjs",
