@@ -11,7 +11,7 @@ Specifically, it adopts the following structure:
 ```go
 // Note: a number is a 64-bit floating-point number
 
-Data       :=   [ { TecackStroke } ... ]
+TecackStrokes       :=   [ { TecackStroke } ... ]
 TecackStroke     :=   [ { Position } ... ]
 Position   :=   X Y
 X          :=   number
@@ -22,7 +22,7 @@ Y          :=   number
 ::: details TypeScript
 
 ```ts
-type Data = Array<TecackStroke>;
+type TecackStrokes = Array<TecackStroke>;
 type TecackStroke = Array<Position>;
 type Position = [X, Y];
 type X = number;
@@ -42,7 +42,7 @@ Datasets carry the following information:
 ```go
 // Note: char is a character represented by a single UTF-16 code unit
 
-TecackDataset           :=   TargetChar TargetCharStrokeLength TecackStroke TecackStroke
+TecackDataset           :=   TargetChar TargetCharStrokeLength TecackStrokes
 TargetChar             :=   char
 TargetCharStrokeLength :=   number
 ```

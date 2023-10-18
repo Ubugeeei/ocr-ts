@@ -2,6 +2,8 @@
 
 jTegaki allows users to input stroke information through a GUI and outputs non-language dependent stroke information in XML format.
 
+This GUI Tool is published from: https://github.com/asdfjkl/kanjicanvas#adding-new-refpatterns
+
 ## Installation
 
 It is bundled in `@tecack/tools`.
