@@ -28,8 +28,11 @@
     "lint": "ESLINT_USE_FLAT_CONFIG=true eslint",
     "spell-check": "cspell lint \"**\" --no-progress --show-suggestions --show-context --cache",
     "play": "pnpm run build && pnpm -F=@examples/basic run start",
+    "play:simple": "pnpm run build && pnpm -F=@examples/simple run start",
     "play:client": "pnpm run build && pnpm -F=@examples/client run start",
-    "play:server": "pnpm run build && pnpm -F=@examples/sever run start"
+    "play:server": "pnpm run build && pnpm -F=@examples/sever run start",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs"
   },
   "lint-staged": {
     "*": [
@@ -47,6 +50,7 @@
     "lint-staged": "^15.0.1",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.5",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vitepress": "1.0.0-rc.22"
   }
 }

@@ -4,3 +4,5 @@ dist
 bin
 temp
 out
+docs/.vitepress/cache
+docs/.vitepress/dist

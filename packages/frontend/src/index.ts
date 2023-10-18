@@ -1,6 +1,8 @@
 import type { Stroke } from "@tecack/shared";
 import { CanvasCtxNotFoundError, InitializeError } from "./errors";
 
+export * from "./errors";
+
 export interface Tecack {
   /**
    * call Tecack.init(id) to initialize a canvas as a Tecack

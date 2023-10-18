@@ -1,0 +1,12 @@
+{
+  "name": "@examples/simple",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "vite"
+  },
+  "devDependencies": {
+    "vite": "^4.4.5"
+  }
+}

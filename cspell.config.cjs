@@ -12,10 +12,13 @@ module.exports = {
     "drawio",
     "hono",
     "outdir",
+    "snipet",
+    "snipets",
     "tecack",
     "tegaki",
     "ubugeeei",
     "unicodegen",
+    "vitepress",
     "xmls",
   ],
   dictionaries: [
@@ -43,5 +46,7 @@ module.exports = {
     "**/*.png",
     "**/*.jpeg",
     "**/*.otf",
+    "docs/.vitepress/cache",
+    "docs/.vitepress/dist",
   ],
 };
