@@ -3,8 +3,14 @@ import { defineConfig } from "vitepress";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Tecack",
-  description: "A VitePress Site",
+  description: "The Tecack Documentation",
+  lastUpdated: true,
   themeConfig: {
+    outline: "deep",
+    search: {
+      provider: "local",
+    },
+
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "Home", link: "/" },
@@ -44,6 +50,6 @@ export default defineConfig({
       },
     ],
 
-    socialLinks: [{ icon: "github", link: "https://github.com/vuejs/vitepress" }],
+    socialLinks: [{ icon: "github", link: "https://github.com/Ubugeeei/tecack" }],
   },
 });
