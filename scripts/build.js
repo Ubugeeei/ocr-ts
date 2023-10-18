@@ -28,6 +28,12 @@ export const buildCli = async () => {
     target: "node18",
     platform: "node",
   });
+  // write shebang
+  const shebang = "#!/usr/bin/env node";
+  fs.writeFileSync(
+    path.resolve(`${CLI_OUT_DIR}/bin.js`),
+    `${shebang}\n${fs.readFileSync(path.resolve(`${CLI_OUT_DIR}/bin.js`))}`,
+  );
   finishedBuild(CLI_OUT_DIR);
 
   // copy jTegaki.zip
