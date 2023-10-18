@@ -58,6 +58,8 @@ export const buildTecack = () =>
     const res = esbuild.build({
       entryPoints: [path.resolve(`packages/${pkg}/src/index`)],
       bundle: true,
+      minify: true,
+      target: "es2018",
       outdir: `packages/${pkg}/dist`,
       format: "esm",
     });
