@@ -2,4 +2,4 @@ $ pnpm add @tecack/frontend
 $ pnpm add @tecack/backend
 $ pnpm add @tecack/dataset
 $ pnpm add @tecack/shared
-$ pnpm add @tecack/tools
+$ pnpm add -D @tecack/tools

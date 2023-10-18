@@ -2,4 +2,4 @@ $ bun add @tecack/frontend
 $ bun add @tecack/backend
 $ bun add @tecack/dataset
 $ bun add @tecack/shared
-$ bun add @tecack/tools
+$ bun add -D @tecack/tools
