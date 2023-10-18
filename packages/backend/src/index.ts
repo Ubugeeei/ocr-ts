@@ -1,47 +1,51 @@
-import type { Position, Stroke, TecackStroke } from "@tecack/shared";
+import type { Position, TecackStroke, TecackDataset } from "@tecack/shared";
 
-type M10 = (pattern: Readonly<Array<Stroke>>) => number;
-type M01 = (pattern: Readonly<Array<Stroke>>) => number;
-type M00 = (pattern: Readonly<Array<Stroke>>) => number;
-type Mu20 = (pattern: Readonly<Array<Stroke>>, xc: number) => number;
-type Mu02 = (pattern: Readonly<Array<Stroke>>, yc: number) => number;
+type M10 = (pattern: Readonly<Array<TecackStroke>>) => number;
+type M01 = (pattern: Readonly<Array<TecackStroke>>) => number;
+type M00 = (pattern: Readonly<Array<TecackStroke>>) => number;
+type Mu20 = (pattern: Readonly<Array<TecackStroke>>, xc: number) => number;
+type Mu02 = (pattern: Readonly<Array<TecackStroke>>, yc: number) => number;
 
 type Aran = (width: number, height: number) => number;
-type Transform = (pattern: Array<Stroke>, x_: number, y_: number) => Array<Stroke>;
-type MomentNormalize = () => Array<Stroke>;
+type Transform = (pattern: Array<TecackStroke>, x_: number, y_: number) => Array<TecackStroke>;
+type MomentNormalize = () => Array<TecackStroke>;
 type Euclid = (x1y1: [number, number], x2y2: [number, number]) => number;
-type ExtractFeatures = (input_data: Array<Stroke>, interval: number) => Array<Stroke>;
-type EndPointDistance = (pattern1: Stroke, pattern2: Stroke) => number;
-type InitialDistance = (pattern1: Stroke, pattern2: Stroke) => number;
+type ExtractFeatures = (input_data: Array<TecackStroke>, interval: number) => Array<TecackStroke>;
+type EndPointDistance = (pattern1: TecackStroke, pattern2: TecackStroke) => number;
+type InitialDistance = (pattern1: TecackStroke, pattern2: TecackStroke) => number;
 type GetLargerAndSize = <T extends Array<any>>(pattern1: T, pattern2: T) => [T, T, number, number];
-type WholeWholeDistance = (pattern1: Stroke, pattern2: Stroke) => number;
+type WholeWholeDistance = (pattern1: TecackStroke, pattern2: TecackStroke) => number;
 type InitStrokeMap = (
-  pattern1: Array<Stroke>,
-  pattern2: Array<Stroke>,
-  distanceMetric: (a: Stroke, n: Stroke) => number,
+  pattern1: Array<TecackStroke>,
+  pattern2: Array<TecackStroke>,
+  distanceMetric: (a: TecackStroke, n: TecackStroke) => number,
 ) => Position;
 type GetMap = (
-  pattern1: Array<Stroke>,
-  pattern2: Array<Stroke>,
-  distanceMetric: (a: Stroke, n: Stroke) => number,
+  pattern1: Array<TecackStroke>,
+  pattern2: Array<TecackStroke>,
+  distanceMetric: (a: TecackStroke, n: TecackStroke) => number,
 ) => Position;
 type CompleteMap = (
-  pattern1: Array<Stroke>,
-  pattern2: Array<Stroke>,
-  distanceMetric: (a: Stroke, n: Stroke) => number,
+  pattern1: Array<TecackStroke>,
+  pattern2: Array<TecackStroke>,
+  distanceMetric: (a: TecackStroke, n: TecackStroke) => number,
   map: Array<number>,
 ) => Array<number>;
 type ComputeDistance = (
-  pattern1: Array<Stroke>,
-  pattern2: Array<Stroke>,
-  distanceMetric: (a: Stroke, n: Stroke) => number,
+  pattern1: Array<TecackStroke>,
+  pattern2: Array<TecackStroke>,
+  distanceMetric: (a: TecackStroke, n: TecackStroke) => number,
   map: Array<number>,
 ) => number;
-type ComputeWholeDistanceWeighted = (pattern1: Array<Stroke>, pattern2: Array<Stroke>, map: Position) => number;
-type CoarseClassification = (inputPattern: Array<Stroke>) => Stroke;
-type FineClassification = (inputPattern: Array<Stroke>, inputCandidates: Stroke) => string[];
+type ComputeWholeDistanceWeighted = (
+  pattern1: Array<TecackStroke>,
+  pattern2: Array<TecackStroke>,
+  map: Position,
+) => number;
+type CoarseClassification = (inputPattern: Array<TecackStroke>) => TecackStroke;
+type FineClassification = (inputPattern: Array<TecackStroke>, inputCandidates: TecackStroke) => string[];
 
-export function recognize(input: Readonly<Array<Stroke>>, dataset: Readonly<Array<TecackStroke>>): string[] {
+export function recognize(input: Readonly<Array<TecackStroke>>, dataset: Readonly<Array<TecackDataset>>): string[] {
   let newHeight: number;
   let newWidth: number;
   let oldHeight: number;
@@ -564,7 +568,7 @@ export function recognize(input: Readonly<Array<Stroke>>, dataset: Readonly<Arra
   // considering _all_ referencePatterns using endpoint distance
   const coarseClassification: CoarseClassification = inputPattern => {
     var inputLength = inputPattern.length;
-    var candidates: Stroke = [];
+    var candidates: TecackStroke = [];
     for (var i = 0; i < dataset.length; i++) {
       var iLength = dataset[i][1];
       if (inputLength < iLength + 2 && inputLength > iLength - 3) {

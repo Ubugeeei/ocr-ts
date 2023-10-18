@@ -1,4 +1,4 @@
-import { Stroke } from "./stroke";
+import { TecackStroke } from "./stroke";
 import { hexToNumber, numberToHex } from "./general";
 
 export const STROKE_SEPARATOR = "\n";
@@ -11,11 +11,11 @@ export class DecodeError extends Error {
   }
 }
 
-export type EncodeStroke = (strokes: Array<Stroke>) => string;
+export type EncodeStroke = (strokes: Array<TecackStroke>) => string;
 export const encodeStroke: EncodeStroke = strokes =>
   strokes.flatMap(it => it.map(it => it.map(numberToHex)).join(STROKE_POSITION_SEPARATOR)).join(STROKE_SEPARATOR);
 
-export type DecodeStroke = (encoded: string) => Array<Stroke> | DecodeError;
+export type DecodeStroke = (encoded: string) => Array<TecackStroke> | DecodeError;
 export const decodeStroke: DecodeStroke = encoded => {
   try {
     return encoded.split(STROKE_SEPARATOR).map(it =>
@@ -26,7 +26,7 @@ export const decodeStroke: DecodeStroke = encoded => {
         if (positionIndex === 0) acc[strokeIndex] = [null!, null!];
         acc[strokeIndex][positionIndex] = position;
         return acc;
-      }, [] as Stroke),
+      }, [] as TecackStroke),
     );
   } catch (e) {
     return new DecodeError(`Failed to decode stroke: ${e}`);

@@ -1,10 +1,10 @@
-export type TecackStroke = [TargetChar, TargetCharStrokeLength, Array<Stroke>];
+export type TecackDataset = [TargetChar, TargetCharStrokeLength, Array<TecackStroke>];
 
 export type TargetChar = string;
 
 export type TargetCharStrokeLength = number;
 
-export type Stroke = Array<Position>;
+export type TecackStroke = Array<Position>;
 
 export type Position = [X, Y];
 

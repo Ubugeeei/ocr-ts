@@ -1,6 +1,6 @@
-# datagen
+# codegen
 
-datagen generates code in various languages based on the XML created with j-tegaki.
+codegen generates code in various languages based on the XML created with j-tegaki.
 Currently, only TypeScript is supported.
 
 This is a CLI tool.
@@ -15,7 +15,7 @@ It's bundled in `@tecack/tools`.
 // package.json
 {
   "scripts": {
-    "jTegaki": "tecack datagen -d=dataset -o=out/data.ts"
+    "jTegaki": "tecack codegen -d=dataset -o=out/data.ts"
   }
 }
 ```

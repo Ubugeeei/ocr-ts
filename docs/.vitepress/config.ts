@@ -84,7 +84,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: "jTegaki", link: "/tools/j-tegaki" },
-          { text: "datagen", link: "/tools/datagen" },
+          { text: "codegen", link: "/tools/codegen" },
           { text: "unicodegen", link: "/tools/unicodegen" },
         ],
       },

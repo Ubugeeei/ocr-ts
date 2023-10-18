@@ -3,11 +3,11 @@
   "version": "0.0.1",
   "scripts": {
     "tecack": "node ../../packages/tools/bin/bin.js",
-    "datagen": "node ../../packages/tools/bin/bin.js datagen",
-    "datagen:ts": "pnpm run datagen -d=dataset -o=out/data.ts",
-    "datagen:js": "pnpm run datagen -d=dataset -o=out/data.js --ts=false",
-    "datagen:cjs": "pnpm run datagen -d=dataset -o=out/data.cjs --cjs",
-    "datagen:named": "pnpm run datagen -d=dataset -o=out/named.ts --n=MY_TEGAKI_DATA"
+    "codegen": "node ../../packages/tools/bin/bin.js codegen",
+    "codegen:ts": "pnpm run codegen -d=dataset -o=out/data.ts",
+    "codegen:js": "pnpm run codegen -d=dataset -o=out/data.js --ts=false",
+    "codegen:cjs": "pnpm run codegen -d=dataset -o=out/data.cjs --cjs",
+    "codegen:named": "pnpm run codegen -d=dataset -o=out/named.ts --n=MY_TEGAKI_DATA"
   },
   "author": "Ubugeeei <ubuge1122@gmail.com>",
   "license": "MIT"
