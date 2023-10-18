@@ -5,6 +5,8 @@ export default defineConfig({
   title: "Tecack",
   description: "The Tecack Documentation",
   lastUpdated: true,
+  lang: "en",
+  appearance: "dark",
   head: [
     // og
     ["meta", { property: "og:site_name", content: "tecack" }],
