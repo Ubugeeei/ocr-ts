@@ -1,7 +1,7 @@
 import { defineCommand, runMain, runCommand } from "citty";
 import { unicodegen } from "./cmd/unicodegen";
 import { openJTegaki } from "./cmd/jTegaki";
-import { datagen } from "./cmd/datagen";
+import { codegen } from "./cmd/codegen";
 
 const main = defineCommand({
   meta: { name: "tecack tools tools" },
@@ -18,8 +18,8 @@ const main = defineCommand({
           rawArgs: rawArgs.slice(1),
         });
         break;
-      case "datagen":
-        await runCommand(datagen, {
+      case "codegen":
+        await runCommand(codegen, {
           rawArgs: rawArgs.slice(1),
         });
         break;
@@ -28,7 +28,7 @@ const main = defineCommand({
 available commands:
   - unicodegen
   - jTegaki
-  - datagen`);
+  - codegen`);
         break;
       }
     }

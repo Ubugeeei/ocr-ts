@@ -67,8 +67,8 @@ To create datasets, primarily two tools are used:
 jTegaki allows you to create stroke data via GUI and outputs a language-independent TecackStroke. The format is XML.  
 For detailed usage, please refer to [Tools > jTegaki](/tools/j-tegaki).
 
-### datagen
+### codegen
 
-datagen generates dataset codes based on XML.  
+codegen generates dataset codes based on XML.  
 Currently, only TypeScript is supported.  
-For detailed usage, please refer to [Tools > datagen](/tools/datagen).
+For detailed usage, please refer to [Tools > codegen](/tools/codegen).

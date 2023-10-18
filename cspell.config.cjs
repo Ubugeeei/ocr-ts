@@ -8,7 +8,7 @@ module.exports = {
     "codegen",
     "consola",
     "dominik",
-    "datagen",
+    "codegen",
     "drawio",
     "hono",
     "outdir",
