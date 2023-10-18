@@ -1,6 +1,6 @@
 {
   "name": "@tecack/tools",
-  "version": "0.0.1-alpha.6",
+  "version": "0.0.1-alpha.7",
   "description": "@tecack/tools",
   "bin": {
     "tecack": "./bin/bin.js"
@@ -21,7 +21,7 @@
     "directory": "packages/tools"
   },
   "files": [
-    "dist"
+    "bin"
   ],
   "dependencies": {
     "adm-zip": "^0.5.10",
