@@ -5,6 +5,48 @@ export default defineConfig({
   title: "Tecack",
   description: "The Tecack Documentation",
   lastUpdated: true,
+  head: [
+    // og
+    ["meta", { property: "og:site_name", content: "tecack" }],
+    ["meta", { property: "og:url", content: "https://ubugeeei.github.io/tecack" }],
+    ["meta", { property: "og:title", content: "tecack" }],
+    [
+      "meta",
+      {
+        property: "og:description",
+        content: "The hand-writing recognition engine built with TypeScript. Forked from KanjiCanvas.",
+      },
+    ],
+    // TODO:
+    // [
+    //   "meta",
+    //   {
+    //     property: "og:image",
+    //     content: "https://github.com/Ubugeeei/tecack/blob/main/docs/public/tecack-img.png?raw=true",
+    //   },
+    // ],
+    ["meta", { property: "og:image:alt", content: "tecack" }],
+    ["meta", { name: "twitter:site", content: "tecack" }],
+    // TODO:
+    // ["meta", { name: "twitter:card", content: "summary_large_image" }],
+    ["meta", { name: "twitter:title", content: "tecack" }],
+    [
+      "meta",
+      {
+        name: "twitter:description",
+        content: "The hand-writing recognition engine built with TypeScript. Forked from KanjiCanvas.",
+      },
+    ],
+    // TODO:
+    // [
+    //   "meta",
+    //   {
+    //     name: "twitter:image",
+    //     content: "https://github.com/Ubugeeei/tecack/blob/main/docs/public/tecack-img.png?raw=true",
+    //   },
+    // ],
+    ["meta", { name: "twitter:image:alt", content: "tecack" }],
+  ],
   themeConfig: {
     outline: "deep",
     search: {
@@ -49,7 +91,10 @@ export default defineConfig({
         link: "/contribution",
       },
     ],
-
+    editLink: {
+      pattern: "https://github.com/Ubugeeei/tecack/docs/:path",
+      text: "Suggest changes to this page",
+    },
     socialLinks: [{ icon: "github", link: "https://github.com/Ubugeeei/tecack" }],
   },
 });
