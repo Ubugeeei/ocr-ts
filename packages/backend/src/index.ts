@@ -1,16 +1,10 @@
 import type { Position, TecackStroke, TecackDataset } from "@tecack/shared";
+import { momentNormalize } from "./momentNormalize";
+import { extractFeatures } from "./extractFeatures";
 
-type M10 = (pattern: Readonly<Array<TecackStroke>>) => number;
-type M01 = (pattern: Readonly<Array<TecackStroke>>) => number;
-type M00 = (pattern: Readonly<Array<TecackStroke>>) => number;
-type Mu20 = (pattern: Readonly<Array<TecackStroke>>, xc: number) => number;
-type Mu02 = (pattern: Readonly<Array<TecackStroke>>, yc: number) => number;
+export { extractFeatures } from "./extractFeatures";
+export { momentNormalize } from "./momentNormalize";
 
-type Aran = (width: number, height: number) => number;
-type Transform = (pattern: Array<TecackStroke>, x_: number, y_: number) => Array<TecackStroke>;
-type MomentNormalize = () => Array<TecackStroke>;
-type Euclid = (x1y1: [number, number], x2y2: [number, number]) => number;
-type ExtractFeatures = (input_data: Array<TecackStroke>, interval: number) => Array<TecackStroke>;
 type EndPointDistance = (pattern1: TecackStroke, pattern2: TecackStroke) => number;
 type InitialDistance = (pattern1: TecackStroke, pattern2: TecackStroke) => number;
 type GetLargerAndSize = <T extends Array<any>>(pattern1: T, pattern2: T) => [T, T, number, number];
@@ -46,235 +40,10 @@ type CoarseClassification = (inputPattern: Array<TecackStroke>) => TecackStroke;
 type FineClassification = (inputPattern: Array<TecackStroke>, inputCandidates: TecackStroke) => string[];
 
 export function recognize(input: Readonly<Array<TecackStroke>>, dataset: Readonly<Array<TecackDataset>>): string[] {
-  let newHeight: number;
-  let newWidth: number;
-  let oldHeight: number;
-  let oldWidth: number;
-  let xMin: number;
-  let xMax: number;
-  let yMin: number;
-  let yMax: number;
-  let x: number;
-  let y: number;
   let dii: number;
   let j_of_i: number;
   let minDist: number;
   let min_j: number;
-
-  const m10: M10 = pattern => {
-    var sum = 0;
-    for (var i = 0; i < pattern.length; i++) {
-      var stroke_i = pattern[i];
-      for (var j = 0; j < stroke_i.length; j++) {
-        sum += stroke_i[j][0];
-      }
-    }
-    return sum;
-  };
-
-  const m01: M01 = pattern => {
-    var sum = 0;
-    for (var i = 0; i < pattern.length; i++) {
-      var stroke_i = pattern[i];
-      for (var j = 0; j < stroke_i.length; j++) {
-        sum += stroke_i[j][1];
-      }
-    }
-    return sum;
-  };
-
-  const m00: M00 = pattern => {
-    var sum = 0;
-    for (var i = 0; i < pattern.length; i++) {
-      var stroke_i = pattern[i];
-      sum += stroke_i.length;
-    }
-    return sum;
-  };
-
-  const mu20: Mu20 = (pattern, xc) => {
-    var sum = 0;
-    for (var i = 0; i < pattern.length; i++) {
-      var stroke_i = pattern[i];
-      for (var j = 0; j < stroke_i.length; j++) {
-        var diff = stroke_i[j][0] - xc;
-        sum += diff * diff;
-      }
-    }
-    return sum;
-  };
-
-  const mu02: Mu02 = (pattern, yc) => {
-    var sum = 0;
-    for (var i = 0; i < pattern.length; i++) {
-      var stroke_i = pattern[i];
-      for (var j = 0; j < stroke_i.length; j++) {
-        var diff = stroke_i[j][1] - yc;
-        sum += diff * diff;
-      }
-    }
-    return sum;
-  };
-
-  const aran: Aran = (width, height) => {
-    var r1 = 0;
-    if (height > width) {
-      r1 = width / height;
-    } else {
-      r1 = height / width;
-    }
-
-    var a = Math.PI / 2;
-    var b = a * r1;
-    var b1 = Math.sin(b);
-    var c = Math.sqrt(b1);
-    var d = c;
-
-    var r2 = Math.sqrt(Math.sin((Math.PI / 2) * r1));
-    return r2;
-  };
-
-  const transform: Transform = (pattern, x_, y_) => {
-    var pt = new Array();
-    for (var i = 0; i < pattern.length; i++) {
-      var stroke_i = pattern[i];
-      var c_stroke_i = new Array();
-      for (var j = 0; j < stroke_i.length; j++) {
-        var x = stroke_i[j][0] + x_;
-        var y = stroke_i[j][1] + y_;
-        c_stroke_i.push([x, y]);
-      }
-      pt.push(c_stroke_i);
-    }
-    return pt;
-  };
-
-  // main function for moment normalization
-  const momentNormalize: MomentNormalize = () => {
-    newHeight = 256;
-    newWidth = 256;
-    xMin = 256;
-    xMax = 0;
-    yMin = 256;
-    yMax = 0;
-    // first determine drawn character width / length
-    for (var i = 0; i < input.length; i++) {
-      var stroke_i = input[i];
-      for (var j = 0; j < stroke_i.length; j++) {
-        x = stroke_i[j][0];
-        y = stroke_i[j][1];
-        if (x < xMin) {
-          xMin = x;
-        }
-        if (x > xMax) {
-          xMax = x;
-        }
-        if (y < yMin) {
-          yMin = y;
-        }
-        if (y > yMax) {
-          yMax = y;
-        }
-      }
-    }
-    oldHeight = Math.abs(yMax - yMin);
-    oldWidth = Math.abs(xMax - xMin);
-
-    var r2 = aran(oldWidth, oldHeight);
-
-    var aranWidth = newWidth;
-    var aranHeight = newHeight;
-
-    if (oldHeight > oldWidth) {
-      aranWidth = r2 * newWidth;
-    } else {
-      aranHeight = r2 * newHeight;
-    }
-
-    var xOffset = (newWidth - aranWidth) / 2;
-    var yOffset = (newHeight - aranHeight) / 2;
-
-    var m00_ = m00(input);
-    var m01_ = m01(input);
-    var m10_ = m10(input);
-
-    var xc_ = m10_ / m00_;
-    var yc_ = m01_ / m00_;
-
-    var xc_half = aranWidth / 2;
-    var yc_half = aranHeight / 2;
-
-    var mu20_ = mu20(input, xc_);
-    var mu02_ = mu02(input, yc_);
-
-    var alpha = aranWidth / (4 * Math.sqrt(mu20_ / m00_)) || 0;
-    var beta = aranHeight / (4 * Math.sqrt(mu02_ / m00_)) || 0;
-
-    var nf = new Array();
-    for (var i = 0; i < input.length; i++) {
-      var si = input[i];
-      var nsi = new Array();
-      for (var j = 0; j < si.length; j++) {
-        var newX = alpha * (si[j][0] - xc_) + xc_half;
-        var newY = beta * (si[j][1] - yc_) + yc_half;
-
-        nsi.push([newX, newY]);
-      }
-      nf.push(nsi);
-    }
-
-    return transform(nf, xOffset, yOffset);
-  };
-
-  // distance functions
-  const euclid: Euclid = (x1y1, x2y2) => {
-    var a = x1y1[0] - x2y2[0];
-    var b = x1y1[1] - x2y2[1];
-    var c = Math.sqrt(a * a + b * b);
-    return c;
-  };
-
-  // extract points in regular intervals
-  const extractFeatures: ExtractFeatures = (input_data, interval) => {
-    var extractedPattern = new Array();
-    var nrStrokes = input_data.length;
-    for (var i = 0; i < nrStrokes; i++) {
-      var stroke_i = input_data[i];
-      var extractedStroke_i = new Array();
-      var dist = 0.0;
-      var j = 0;
-      while (j < stroke_i.length) {
-        // always add first point
-        if (j == 0) {
-          var x1y1 = stroke_i[0];
-          extractedStroke_i.push(x1y1);
-        }
-        if (j > 0) {
-          var x1y1 = stroke_i[j - 1];
-          var x2y2 = stroke_i[j];
-          dist += euclid(x1y1, x2y2);
-        }
-        if (dist >= interval && j > 1) {
-          dist = dist - interval;
-          var x1y1 = stroke_i[j];
-          extractedStroke_i.push(x1y1);
-        }
-        j++;
-      }
-      // if we so far have only one point, always add last point
-      if (extractedStroke_i.length == 1) {
-        var x1y1 = stroke_i[stroke_i.length - 1];
-        extractedStroke_i.push(x1y1);
-      } else {
-        if (dist > 0.75 * interval) {
-          var x1y1 = stroke_i[stroke_i.length - 1];
-          extractedStroke_i.push(x1y1);
-        }
-      }
-      extractedPattern.push(extractedStroke_i);
-    }
-    return extractedPattern;
-  };
 
   const endPointDistance: EndPointDistance = (pattern1, pattern2) => {
     var dist = 0;
@@ -636,14 +405,13 @@ export function recognize(input: Readonly<Array<TecackStroke>>, dataset: Readonl
   };
 
   const _recognize = () => {
-    var mn = momentNormalize();
+    const mn = momentNormalize(input);
+    const extractedFeatures = extractFeatures(mn, 20);
 
-    var extractedFeatures = extractFeatures(mn, 20);
-
-    var map = getMap(extractedFeatures, dataset[0][2], endPointDistance);
+    let map = getMap(extractedFeatures, dataset[0][2], endPointDistance);
     map = completeMap(extractedFeatures, dataset[0][2], endPointDistance, map) as Position;
 
-    var candidates = coarseClassification(extractedFeatures);
+    const candidates = coarseClassification(extractedFeatures);
     return fineClassification(extractedFeatures, candidates);
   };
 
