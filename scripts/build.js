@@ -59,6 +59,8 @@ export const buildTecack = () =>
       entryPoints: [path.resolve(`packages/${pkg}/src/index`)],
       bundle: true,
       outdir: `packages/${pkg}/dist`,
+      minify: true,
+      format: "esm",
     });
     res.then(() => finishedBuild(`packages/${pkg}/dist`));
     return res;
