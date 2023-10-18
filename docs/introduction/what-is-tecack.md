@@ -24,12 +24,12 @@ and more...
 
 Tecack is broadly divided into frontend and backend.
 
-The frontend generates TecackDataset based on user's stroke information through Canvas.
-The backend infers character candidates based on TecackDataset.
+The frontend generates `TecackStrokes` based on user's stroke information through Canvas.
+The backend infers character candidates based on `TecackStrokes`.
 
 The backend can run in any environment that supports JS/TS.
 This includes browsers, as well as Node.js, Deno, and Bun.
-(You can think of it as a pure function that takes TecackDataset and a dataset, and outputs character candidates.)
+(You can think of it as a pure function that takes `TecackStrokes` and a dataset, and outputs character candidates.)
 
 ![preview](/tecack.gif)
 

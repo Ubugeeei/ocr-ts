@@ -56,10 +56,7 @@ export default defineConfig({
     },
 
     // https://vitepress.dev/reference/default-theme-config
-    nav: [
-      { text: "Home", link: "/" },
-      { text: "Examples", link: "/markdown-examples" },
-    ],
+    nav: [{ text: "Home", link: "/" }],
 
     sidebar: [
       {
@@ -94,7 +91,7 @@ export default defineConfig({
       },
     ],
     editLink: {
-      pattern: "https://github.com/Ubugeeei/tecack/docs/:path",
+      pattern: "https://github.com/Ubugeeei/tecack/tree/main/docs/:path",
       text: "Suggest changes to this page",
     },
     socialLinks: [{ icon: "github", link: "https://github.com/Ubugeeei/tecack" }],
