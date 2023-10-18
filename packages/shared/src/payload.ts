@@ -11,7 +11,7 @@ export class DecodeError extends Error {
   }
 }
 
-export type EncodeStroke = (strokes: Array<TecackStroke>) => string;
+export type EncodeStroke = (strokes: Readonly<Array<TecackStroke>>) => string;
 export const encodeStroke: EncodeStroke = strokes =>
   strokes.flatMap(it => it.map(it => it.map(numberToHex)).join(STROKE_POSITION_SEPARATOR)).join(STROKE_SEPARATOR);
 

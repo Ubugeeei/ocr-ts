@@ -192,7 +192,7 @@ And, decodes encoded string.
 - #### Type
 
   ```ts
-  function encodeStroke(strokes: Array<TecackStroke>): string;
+  function encodeStroke(strokes: Readonly<Array<TecackStroke>>): string;
   function decodeStroke(encoded: string): Array<TecackStroke> | DecodeError;
   ```
 
