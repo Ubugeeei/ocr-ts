@@ -1,6 +1,6 @@
 {
   "name": "tecack",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "type": "module",
   "description": "",
   "keywords": [],
@@ -21,6 +21,7 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "deploy": "sh scripts/deploy.sh",
     "build": "pnpm run bundle && pnpm run build:dts",
     "bundle": "node scripts/build.js",
     "build:dts": "rm -rf temp && tsc -p tsconfig.build.json && node scripts/dts.js && rm -rf temp",
