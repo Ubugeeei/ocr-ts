@@ -1,6 +1,6 @@
 {
   "name": "@tecack/backend",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha.1",
   "description": "@tecack/backend",
   "main": "dist/index.js",
   "keywords": [],
