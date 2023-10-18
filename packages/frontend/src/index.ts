@@ -5,13 +5,13 @@ export * from "./errors";
 
 export interface Tecack {
   /**
-   * call Tecack.init(id) to initialize a canvas as a Tecack
+   * call Tecack.mount(id) to initialize a canvas as a Tecack
    *
    * `id` must be the id attribute of the canvas.
    *
-   * ex: Tecack.init('canvas-1');
+   * ex: Tecack.mount('canvas-1');
    */
-  init: (id: string) => void | InitializeError;
+  mount: (id: string) => void | InitializeError;
   draw: (color?: string) => void | CanvasCtxNotFoundError;
   deleteLast: () => void | CanvasCtxNotFoundError;
   erase: () => void | CanvasCtxNotFoundError;
@@ -62,7 +62,7 @@ export function createTecack(document: Document): Tecack {
 
   // NOTE: Initialized with null or undefined to ensure compatibility with pre-fork implementations.
   const tecack: Tecack = {
-    init: id => {
+    mount: id => {
       _canvasId = id;
       const c = document.getElementById(_canvasId);
       if (!c) {

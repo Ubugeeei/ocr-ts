@@ -2,7 +2,7 @@ import { createTecack, recognize, KANJI_DATA_SET } from "tecack";
 
 const tecack = createTecack(document);
 
-tecack.init("my-canvas");
+tecack.mount("my-canvas");
 
 window.addEventListener("mouseup", () => {
   const strokes = tecack.getStrokes();
