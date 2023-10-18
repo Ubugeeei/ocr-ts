@@ -6,7 +6,22 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "Ubugeeei <ubuge1122@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "keywords": [
+    "typescript",
+    "hand writing recognition",
+    "hand writing",
+    "kanji",
+    "japanese"
+  ],
+  "homepage": "https://ubugeeei.github.io/tecack",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ubugeeei/tecack.git",
+    "directory": "packages/tecack"
+  },
+  "files": [
+    "dist"
+  ]
 }

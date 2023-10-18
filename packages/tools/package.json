@@ -7,6 +7,22 @@
   },
   "author": "Ubugeeei <ubuge1122@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "typescript",
+    "hand writing recognition",
+    "hand writing",
+    "kanji",
+    "japanese"
+  ],
+  "homepage": "https://ubugeeei.github.io/tecack",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ubugeeei/tecack.git",
+    "directory": "packages/tools"
+  },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "adm-zip": "^0.5.10",
     "citty": "^0.1.4",
