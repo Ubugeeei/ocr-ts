@@ -5,7 +5,7 @@ import { recognize } from "@tecack/backend";
 import { KANJI_DATA_SET } from "@tecack/dataset";
 
 const tecack = createTecack(document);
-tecack.init("tecack-sample");
+tecack.mount("#tecack-sample");
 
 const candidateContainer = document.getElementById("candidate-container")!;
 

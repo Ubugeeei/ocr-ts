@@ -5,13 +5,13 @@ export * from "./errors";
 
 export interface Tecack {
   /**
-   * call Tecack.init(id) to initialize a canvas as a Tecack
+   * call Tecack.mount(selector) to initialize a canvas as a Tecack
    *
-   * `id` must be the id attribute of the canvas.
+   * `selector` must be the selector attribute of the canvas.
    *
-   * ex: Tecack.init('canvas-1');
+   * ex: Tecack.mount('#canvas-1');
    */
-  init: (id: string) => void | InitializeError;
+  mount: (selector: string) => void | InitializeError;
   draw: (color?: string) => void | CanvasCtxNotFoundError;
   deleteLast: () => void | CanvasCtxNotFoundError;
   erase: () => void | CanvasCtxNotFoundError;
@@ -32,7 +32,7 @@ export interface Tecack {
 
 export function createTecack(document: Document): Tecack {
   // private properties
-  let _canvasId: string;
+  let _selector: string;
   let _canvas: HTMLCanvasElement;
   let _ctx: CanvasRenderingContext2D | null;
   let _w: number;
@@ -62,15 +62,15 @@ export function createTecack(document: Document): Tecack {
 
   // NOTE: Initialized with null or undefined to ensure compatibility with pre-fork implementations.
   const tecack: Tecack = {
-    init: id => {
-      _canvasId = id;
-      const c = document.getElementById(_canvasId);
+    mount: selector => {
+      _selector = selector;
+      const c = document.querySelector(_selector);
       if (!c) {
-        return new InitializeError(`Canvas#${_canvasId} was not found.`);
+        return new InitializeError(`Canvas#${_selector} was not found.`);
       }
       if (!(c instanceof HTMLCanvasElement)) {
         return new InitializeError(
-          `Canvas#${_canvasId} is not an HTMLCanvasElement. got ${c.constructor.name} instead.`,
+          `Canvas#${_selector} is not an HTMLCanvasElement. got ${c.constructor.name} instead.`,
         );
       }
       _canvas = c;
@@ -435,7 +435,7 @@ export function createTecack(document: Document): Tecack {
   });
 
   const createCanvasError = () =>
-    new CanvasCtxNotFoundError(`CanvasRenderingContext2D for Canvas#${_canvasId} was not found.`);
+    new CanvasCtxNotFoundError(`CanvasRenderingContext2D for Canvas#${_selector} was not found.`);
 
   const isTouchEvent = (e: unknown): e is TouchEvent => typeof e === "object" && e !== null && "changedTouches" in e;
 

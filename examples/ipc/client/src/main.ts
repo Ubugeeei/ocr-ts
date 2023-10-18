@@ -4,7 +4,7 @@ import { createTecack } from "@tecack/frontend";
 import { encodeStroke } from "@tecack/shared";
 
 const tecack = createTecack(document);
-tecack.init("tecack-sample");
+tecack.mount("#tecack-sample");
 
 let encode = false;
 const toggleEncodeInput = document.getElementById("toggle-encode-input")!;

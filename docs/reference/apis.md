@@ -12,7 +12,7 @@ Creates Tecack instance for drawing on canvas.
   function createTecack(document: Document): Tecack;
 
   interface Tecack {
-    init: (id: string) => void | InitializeError;
+    mount: (selector: string) => void | InitializeError;
     deleteLast: () => void | CanvasCtxNotFoundError;
     erase: () => void | CanvasCtxNotFoundError;
     getStrokes: () => Readonly<Array<Stroke>>;
@@ -34,14 +34,14 @@ Creates Tecack instance for drawing on canvas.
   const tecack = createTecack(document);
   ```
 
-### Tecack.init()
+### Tecack.mount()
 
 Mounts Tecack instance to canvas element.
 
 - #### Type
 
   ```ts
-  function init(id: string): void | InitializeError;
+  function mount(selector: string): void | InitializeError;
   ```
 
 - #### Example
@@ -50,7 +50,7 @@ Mounts Tecack instance to canvas element.
   import { createTecack, InitializeError } from "@tecack/frontend";
 
   const tecack = createTecack(document);
-  const res = tecack.init("my-canvas");
+  const res = tecack.mount("#my-canvas");
   if (res instanceof InitializeError) {
     // handle error
   }
@@ -72,7 +72,7 @@ Deletes last stroke from canvas and instance internal data.
   import { createTecack, CanvasCtxNotFoundError } from "@tecack/frontend";
 
   const tecack = createTecack(document);
-  tecack.init("my-canvas");
+  tecack.mount("#my-canvas");
 
   const deleteLastButton = document.getElementById("delete-last");
   deleteLastButton.addEventListener("click", () => {
@@ -99,7 +99,7 @@ Erases all strokes from canvas and instance internal data.
   import { createTecack, CanvasCtxNotFoundError } from "@tecack/frontend";
 
   const tecack = createTecack(document);
-  tecack.init("my-canvas");
+  tecack.mount("#my-canvas");
 
   const eraseButton = document.getElementById("erase");
   eraseButton.addEventListener("click", () => {
@@ -127,7 +127,7 @@ You can use this data for restore strokes or backend recognition.
   import { createTecack } from "@tecack/frontend";
 
   const tecack = createTecack(document);
-  tecack.init("my-canvas");
+  tecack.mount("#my-canvas");
 
   const strokes = tecack.getStrokes();
   console.log(strokes);
