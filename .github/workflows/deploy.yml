@@ -2,7 +2,7 @@ name: Deploy Document
 
 on:
   push:
-    branches: [main, 6-documentation]
+    branches: [main]
 
   workflow_dispatch:
 
