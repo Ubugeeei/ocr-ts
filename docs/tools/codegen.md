@@ -15,7 +15,7 @@ It's bundled in `@tecack/tools`.
 // package.json
 {
   "scripts": {
-    "jTegaki": "tecack codegen -d=dataset -o=out/data.ts"
+    "codegen": "tecack codegen -d=dataset -o=out/data.ts"
   }
 }
 ```
