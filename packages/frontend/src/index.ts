@@ -1,4 +1,4 @@
-import type { Stroke } from "@tecack/shared";
+import type { TecackStroke } from "@tecack/shared";
 import { CanvasCtxNotFoundError, InitializeError } from "./errors";
 
 export * from "./errors";
@@ -25,8 +25,8 @@ export interface Tecack {
    * add numbers to each stroke
    */
   redraw: () => void | CanvasCtxNotFoundError;
-  getStrokes: () => Readonly<Array<Stroke>>;
-  restoreFromStrokes(strokesMut: Array<Stroke>): void;
+  getStrokes: () => Readonly<Array<TecackStroke>>;
+  restoreFromStrokes(strokesMut: Array<TecackStroke>): void;
   normalizeLinear: () => void;
 }
 
@@ -56,8 +56,8 @@ export function createTecack(document: Document): Tecack {
   let _xNorm: number;
   let _yNorm: number;
   let _dot_flag: boolean;
-  let _recordedPattern: Array<Stroke>;
-  let _currentLine: Stroke | null;
+  let _recordedPattern: Array<TecackStroke>;
+  let _currentLine: TecackStroke | null;
   let _s: string;
 
   // NOTE: Initialized with null or undefined to ensure compatibility with pre-fork implementations.

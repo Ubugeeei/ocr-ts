@@ -15,8 +15,8 @@ Creates Tecack instance for drawing on canvas.
     mount: (selector: string) => void | InitializeError;
     deleteLast: () => void | CanvasCtxNotFoundError;
     erase: () => void | CanvasCtxNotFoundError;
-    getStrokes: () => Readonly<Array<Stroke>>;
-    restoreFromStrokes: (strokesMut: Array<Stroke>) => void;
+    getStrokes: () => Readonly<Array<TecackStroke>>;
+    restoreFromStrokes: (strokesMut: Array<TecackStroke>) => void;
 
     // docs is coming soon...
     // redraw: () => void | CanvasCtxNotFoundError;
@@ -118,7 +118,7 @@ You can use this data for restore strokes or backend recognition.
 - #### Type
 
   ```ts
-  function getStrokes(): Readonly<Array<Stroke>>;
+  function getStrokes(): Readonly<Array<TecackStroke>>;
   ```
 
 - #### Example
@@ -147,7 +147,7 @@ Restores canvas strokes and internal data from existing strokes data.
 - #### Type
 
   ```ts
-  function restoreFromStrokes(strokesMut: Array<Stroke>): void;
+  function restoreFromStrokes(strokesMut: Array<TecackStroke>): void;
   ```
 
 - #### Example
@@ -168,8 +168,8 @@ Recognizes strokes data and returns candidates.
   <!-- prettier-ignore -->
   ```ts
   function recognize(
-    input: Readonly<Array<Stroke>>, 
-    dataset: Readonly<Array<TecackStroke>>
+    input: Readonly<Array<TecackStroke>>, 
+    dataset: Readonly<Array<TecackDataset>>
   ): string[];
   ```
 
@@ -186,14 +186,14 @@ Recognizes strokes data and returns candidates.
 
 ### encodeStroke() / decodeStroke()
 
-Encodes `Array<TecackStroke>` data to minimize size.  
+Encodes `Array<TecackDataset>` data to minimize size.  
 And, decodes encoded string.
 
 - #### Type
 
   ```ts
-  function encodeStroke(strokes: Array<Stroke>): string;
-  function decodeStroke(encoded: string): Array<Stroke> | DecodeError;
+  function encodeStroke(strokes: Array<TecackStroke>): string;
+  function decodeStroke(encoded: string): Array<TecackStroke> | DecodeError;
   ```
 
 - #### Example

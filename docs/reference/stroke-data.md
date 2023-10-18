@@ -2,17 +2,17 @@
 
 ## Common Data Structure
 
-In Tecack, we handle stroke data called "Stroke".
+In Tecack, we handle stroke data called "TecackStroke".
 
-A Stroke represents the coordinate information of a single stroke, and any character is represented by an array of these strokes.
+A TecackStroke represents the coordinate information of a single stroke, and any character is represented by an array of these strokes.
 
 Specifically, it adopts the following structure:
 
 ```go
 // Note: a number is a 64-bit floating-point number
 
-Data       :=   [ { Stroke } ... ]
-Stroke     :=   [ { Position } ... ]
+Data       :=   [ { TecackStroke } ... ]
+TecackStroke     :=   [ { Position } ... ]
 Position   :=   X Y
 X          :=   number
 Y          :=   number
@@ -22,8 +22,8 @@ Y          :=   number
 ::: details TypeScript
 
 ```ts
-type Data = Array<Stroke>;
-type Stroke = Array<Position>;
+type Data = Array<TecackStroke>;
+type TecackStroke = Array<Position>;
 type Position = [X, Y];
 type X = number;
 type Y = number;
@@ -31,7 +31,7 @@ type Y = number;
 
 :::
 
-Data inputted through the canvas, and datasets carry this Stroke information.
+Data inputted through the canvas, and datasets carry this TecackStroke information.
 
 The recognition algorithms in the backend also handle them.
 
@@ -41,9 +41,8 @@ Datasets carry the following information:
 
 ```go
 // Note: char is a character represented by a single UTF-16 code unit
-// TecackStroke defines the dataset
 
-TecackStroke           :=   TargetChar TargetCharStrokeLength Stroke Stroke
+TecackDataset           :=   TargetChar TargetCharStrokeLength TecackStroke TecackStroke
 TargetChar             :=   char
 TargetCharStrokeLength :=   number
 ```
@@ -51,7 +50,7 @@ TargetCharStrokeLength :=   number
 ::: details TypeScript
 
 ```ts
-type TecackStroke = [TargetChar, TargetCharStrokeLength, Array<Stroke>];
+type TecackDataset = [TargetChar, TargetCharStrokeLength, Array<TecackStroke>];
 type TargetChar = string;
 type TargetCharStrokeLength = number;
 ```
@@ -64,7 +63,7 @@ To create datasets, primarily two tools are used:
 
 ### jTegaki
 
-jTegaki allows you to create stroke data via GUI and outputs a language-independent TecackStroke. The format is XML.  
+jTegaki allows you to create stroke data via GUI and outputs a language-independent TecackDataset. The format is XML.  
 For detailed usage, please refer to [Tools > jTegaki](/tools/j-tegaki).
 
 ### codegen
