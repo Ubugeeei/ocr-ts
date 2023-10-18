@@ -3,6 +3,7 @@ module.exports = {
   language: "en",
   words: [
     "aran",
+    "backlink",
     "classfication",
     "citty",
     "codegen",
