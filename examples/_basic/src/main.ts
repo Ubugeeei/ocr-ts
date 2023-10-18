@@ -3,6 +3,7 @@ import "./style.css";
 import { createTecack } from "@tecack/frontend";
 import { recognize } from "@tecack/backend";
 import { KANJI_DATA_SET } from "@tecack/dataset";
+import { HIRAGANA_DATA } from "./hiragana";
 
 const tecack = createTecack(document);
 tecack.mount("#tecack-sample");
@@ -11,7 +12,7 @@ const candidateContainer = document.getElementById("candidate-container")!;
 
 const rec = () => {
   const strokes = tecack.getStrokes();
-  const candidate = recognize(strokes, KANJI_DATA_SET);
+  const candidate = recognize(strokes, [...HIRAGANA_DATA, ...KANJI_DATA_SET]);
   candidateContainer.textContent = candidate.join(", ");
 };
 
