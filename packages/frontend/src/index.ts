@@ -15,7 +15,6 @@ export interface Tecack {
   draw: (color?: string) => void | CanvasCtxNotFoundError;
   deleteLast: () => void | CanvasCtxNotFoundError;
   erase: () => void | CanvasCtxNotFoundError;
-  copyStuff: () => void;
 
   /**
    * redraw to current canvas according to
@@ -30,7 +29,7 @@ export interface Tecack {
   normalizeLinear: () => void;
 }
 
-export function createTecack(document: Document): Tecack {
+export function createTecack(): Tecack {
   // private properties
   let _selector: string;
   let _canvas: HTMLCanvasElement;
@@ -64,7 +63,7 @@ export function createTecack(document: Document): Tecack {
   const tecack: Tecack = {
     mount: selector => {
       _selector = selector;
-      const c = document.querySelector(_selector);
+      const c = window.document.querySelector(_selector);
       if (!c) {
         return new InitializeError(`Canvas#${_selector} was not found.`);
       }
@@ -157,8 +156,6 @@ export function createTecack(document: Document): Tecack {
       _ctx.lineTo(_currX, _currY);
       _ctx.strokeStyle = color ? color : "#333";
       _ctx.lineCap = "round";
-      //Tecack.ctx.lineJoin = "round";
-      //Tecack.ctx.lineMiter = "round";
       _ctx.lineWidth = 4;
       _ctx.stroke();
       _ctx.closePath();
@@ -279,17 +276,6 @@ export function createTecack(document: Document): Tecack {
       tecack.redraw();
     },
 
-    copyStuff: () => {
-      _s = "";
-      for (var i = 0, j = _recordedPattern.length; i < j; i++) {
-        console.log(i + 1, _recordedPattern[i], _recordedPattern[i].toString());
-        console.log(_recordedPattern[i]);
-        console.log(JSON.stringify(_recordedPattern[i]));
-        _s += "[" + JSON.stringify(_recordedPattern[i]) + "],";
-      }
-      _copyToClipboard(_s);
-    },
-
     getStrokes: () => {
       return _recordedPattern;
     },
@@ -307,15 +293,6 @@ export function createTecack(document: Document): Tecack {
         }
       }
     },
-  };
-
-  const _copyToClipboard = (str: string) => {
-    var el = document.createElement("textarea");
-    el.value = str;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.body.removeChild(el);
   };
 
   const _find_x_y = (res: string, e: MouseEvent | TouchEvent): void | CanvasCtxNotFoundError => {
@@ -411,28 +388,6 @@ export function createTecack(document: Document): Tecack {
 
     return "#" + color.join("");
   };
-
-  // event listener for shortcuts
-  document.addEventListener("keydown", function (e) {
-    if (_canvas && e.ctrlKey) {
-      switch (e.key.toLowerCase()) {
-        // undo
-        case "z":
-          e.preventDefault();
-          tecack.deleteLast();
-          break;
-
-        // erase
-        case "x":
-          e.preventDefault();
-          tecack.erase();
-          break;
-
-        default:
-          break;
-      }
-    }
-  });
 
   const createCanvasError = () =>
     new CanvasCtxNotFoundError(`CanvasRenderingContext2D for Canvas#${_selector} was not found.`);
