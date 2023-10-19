@@ -50,8 +50,6 @@ importers:
         specifier: ^4.4.5
         version: 4.4.5
 
-  examples/tools: {}
-
   examples/ipc/client:
     devDependencies:
       typescript:
@@ -74,7 +72,26 @@ importers:
         specifier: ^3.12.2
         version: 3.12.2
 
+  examples/tools: {}
+
+  examples/viewer:
+    devDependencies:
+      typescript:
+        specifier: ^5.0.2
+        version: 5.2.2
+      vite:
+        specifier: ^4.4.5
+        version: 4.4.5
+
   packages/backend: {}
+
+  packages/dataset: {}
+
+  packages/frontend: {}
+
+  packages/shared: {}
+
+  packages/tecack: {}
 
   packages/tools:
     dependencies:
@@ -97,14 +114,6 @@ importers:
       '@types/node':
         specifier: ^20.8.6
         version: 20.8.6
-
-  packages/dataset: {}
-
-  packages/frontend: {}
-
-  packages/shared: {}
-
-  packages/tecack: {}
 
 packages:
 

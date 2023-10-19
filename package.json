@@ -28,6 +28,7 @@
     "fmt": "prettier",
     "lint": "ESLINT_USE_FLAT_CONFIG=true eslint",
     "spell-check": "cspell lint \"**\" --no-progress --show-suggestions --show-context --cache",
+    "open": "pnpm run build && pnpm -F=@examples/viewer run start",
     "play": "pnpm run build && pnpm -F=@examples/basic run start",
     "play:simple": "pnpm run build && pnpm -F=@examples/simple run start",
     "play:client": "pnpm run build && pnpm -F=@examples/client run start",

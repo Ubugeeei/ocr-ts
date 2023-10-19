@@ -1,0 +1,20 @@
+#app {
+  margin-top: 4rem;
+  color: #1b1b1faa;
+
+  /* centering */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+canvas {
+  border: 3px solid #1b1b1faa;
+  margin: 0 auto;
+  display: block;
+}
+
+input {
+  margin: 1rem;
+}
