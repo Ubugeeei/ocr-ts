@@ -3,33 +3,22 @@ import { CanvasCtxNotFoundError, InitializeError } from "./errors";
 
 export * from "./errors";
 
+export interface TecackOptions {
+  backgroundPainter?: (el: HTMLCanvasElement) => void;
+}
+
 export interface Tecack {
-  /**
-   * call Tecack.mount(selector) to initialize a canvas as a Tecack
-   *
-   * `selector` must be the selector attribute of the canvas.
-   *
-   * ex: Tecack.mount('#canvas-1');
-   */
   mount: (selector: string) => void | InitializeError;
   draw: (color?: string) => void | CanvasCtxNotFoundError;
   deleteLast: () => void | CanvasCtxNotFoundError;
   erase: () => void | CanvasCtxNotFoundError;
-
-  /**
-   * redraw to current canvas according to
-   *
-   * what is currently stored in Tecack.recordedPattern
-   *
-   * add numbers to each stroke
-   */
   redraw: () => void | CanvasCtxNotFoundError;
-  getStrokes: () => Readonly<Array<TecackStroke>>;
   restoreFromStrokes(strokesMut: Array<TecackStroke>): void;
+  getStrokes: () => Readonly<Array<TecackStroke>>;
   normalizeLinear: () => void;
 }
 
-export function createTecack(): Tecack {
+export function createTecack(options?: TecackOptions): Tecack {
   // private properties
   let _selector: string;
   let _canvas: HTMLCanvasElement;
@@ -57,7 +46,6 @@ export function createTecack(): Tecack {
   let _dot_flag: boolean;
   let _recordedPattern: Array<TecackStroke>;
   let _currentLine: TecackStroke | null;
-  let _s: string;
 
   // NOTE: Initialized with null or undefined to ensure compatibility with pre-fork implementations.
   const tecack: Tecack = {
@@ -86,6 +74,7 @@ export function createTecack(): Tecack {
       _dot_flag = false;
       _recordedPattern = new Array();
       _currentLine = null;
+      options?.backgroundPainter?.(_canvas);
 
       _canvas.addEventListener(
         "mousemove",
@@ -166,12 +155,13 @@ export function createTecack(): Tecack {
         return createCanvasError();
       }
       _ctx.clearRect(0, 0, _w, _h);
+
+      options?.backgroundPainter?.(_canvas);
       for (var i = 0; i < _recordedPattern.length - 1; i++) {
         var stroke_i = _recordedPattern[i];
         for (var j = 0; j < stroke_i.length - 1; j++) {
           _prevX = stroke_i[j][0];
           _prevY = stroke_i[j][1];
-
           _currX = stroke_i[j + 1][0];
           _currY = stroke_i[j + 1][1];
           tecack.draw();
@@ -186,6 +176,7 @@ export function createTecack(): Tecack {
       }
       _ctx.clearRect(0, 0, _w, _h);
       _recordedPattern.length = 0;
+      options?.backgroundPainter?.(_canvas);
     },
 
     redraw: () => {
@@ -194,6 +185,7 @@ export function createTecack(): Tecack {
       }
       _ctx.clearRect(0, 0, _w, _h);
 
+      options?.backgroundPainter?.(_canvas);
       // draw strokes
       for (var i = 0; i < _recordedPattern.length; i++) {
         var stroke_i = _recordedPattern[i];
@@ -225,6 +217,25 @@ export function createTecack(): Tecack {
           // fill
           _ctx.fillStyle = STROKE_COLORS[i] ? STROKE_COLORS[i] : "#333";
           _ctx.fillText((i + 1).toString(), x, y);
+        }
+      }
+    },
+
+    restoreFromStrokes: strokesMut => {
+      if (!_ctx) {
+        return createCanvasError();
+      }
+      _ctx.clearRect(0, 0, _w, _h);
+      options?.backgroundPainter?.(_canvas);
+      _recordedPattern = strokesMut;
+      for (var i = 0; i < _recordedPattern.length; i++) {
+        var stroke_i = _recordedPattern[i];
+        for (var j = 0; j < stroke_i.length - 1; j++) {
+          _prevX = stroke_i[j][0];
+          _prevY = stroke_i[j][1];
+          _currX = stroke_i[j + 1][0];
+          _currY = stroke_i[j + 1][1];
+          tecack.draw();
         }
       }
     },
@@ -278,20 +289,6 @@ export function createTecack(): Tecack {
 
     getStrokes: () => {
       return _recordedPattern;
-    },
-
-    restoreFromStrokes: strokesMut => {
-      _recordedPattern = strokesMut;
-      for (var i = 0; i < _recordedPattern.length; i++) {
-        var stroke_i = _recordedPattern[i];
-        for (var j = 0; j < stroke_i.length - 1; j++) {
-          _prevX = stroke_i[j][0];
-          _prevY = stroke_i[j][1];
-          _currX = stroke_i[j + 1][0];
-          _currY = stroke_i[j + 1][1];
-          tecack.draw();
-        }
-      }
     },
   };
 

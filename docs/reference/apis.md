@@ -9,20 +9,7 @@ Creates Tecack instance for drawing on canvas.
 - #### Type
 
   ```ts
-  function createTecack(): Tecack;
-
-  interface Tecack {
-    mount: (selector: string) => void | InitializeError;
-    deleteLast: () => void | CanvasCtxNotFoundError;
-    erase: () => void | CanvasCtxNotFoundError;
-    getStrokes: () => Readonly<Array<TecackStroke>>;
-    restoreFromStrokes: (strokesMut: Array<TecackStroke>) => void;
-
-    // docs is coming soon...
-    // redraw: () => void | CanvasCtxNotFoundError;
-    // normalizeLinear: () => void;
-    // draw: (color?: string) => void | CanvasCtxNotFoundError;
-  }
+  function createTecack(options?: TecackOptions): Tecack;
   ```
 
 - #### Example
@@ -31,6 +18,34 @@ Creates Tecack instance for drawing on canvas.
   import { createTecack } from "@tecack/frontend";
 
   const tecack = createTecack();
+  ```
+
+### TecackOptions.backgroundPainter
+
+- #### Type
+
+  ```ts
+  export interface TecackOptions {
+    backgroundPainter?: (el: HTMLCanvasElement) => void;
+  }
+  ```
+
+- #### Example
+
+  if you want to paint fixed background, configure background painter
+
+  ```ts
+  import { createTecack } from "@tecack/frontend";
+
+  const tecack = createTecack({
+    backgroundPainter: canvas => {
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      const [w, h] = [el.width, el.height];
+      ctx.fillStyle = "#ccc";
+      ctx.fillRect(0, 0, w, h);
+    },
+  });
   ```
 
 ### Tecack.mount()
