@@ -75,7 +75,9 @@ ${cjs ? `module.exports.${exportName}` : `export const ${exportName}`}${
 type XML = {
   kanji: {
     unicode: string;
-    stroke: Array<{ point: Array<{ "@_x": string; "@_y": string }> }>;
+    stroke:
+      | { point: Array<{ "@_x": string; "@_y": string }> } // NOTE: stroke is object when the number of strokes is 1
+      | Array<{ point: Array<{ "@_x": string; "@_y": string }> }>;
   };
 };
 
@@ -84,7 +86,8 @@ const parse = (xml: string): TecackDataset => {
   const jsonObj = parser.parse(xml) as XML;
   const { kanji } = jsonObj;
   const { unicode, stroke } = kanji;
-  const tuple_d: Array<TecackStroke> = stroke.map(({ point }) =>
+
+  const tuple_d: Array<TecackStroke> = (Array.isArray(stroke) ? stroke : [stroke]).map(({ point }) =>
     point.map((it): Position => [Number(it["@_x"]), Number(it["@_y"])]),
   );
   return [unicode, tuple_d.length, tuple_d];
