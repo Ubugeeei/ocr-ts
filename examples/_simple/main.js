@@ -1,6 +1,6 @@
 import { createTecack, recognize, KANJI_DATA_SET } from "tecack";
 
-const tecack = createTecack(document);
+const tecack = createTecack();
 
 tecack.mount("#my-canvas");
 

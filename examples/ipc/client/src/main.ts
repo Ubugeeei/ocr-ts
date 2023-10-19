@@ -3,7 +3,7 @@ import "./style.css";
 import { createTecack } from "@tecack/frontend";
 import { encodeStroke } from "@tecack/shared";
 
-const tecack = createTecack(document);
+const tecack = createTecack();
 tecack.mount("#tecack-sample");
 
 let encode = false;

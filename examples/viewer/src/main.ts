@@ -3,7 +3,7 @@ import "./style.css";
 import { createTecack } from "@tecack/frontend";
 import { KANJI_DATA_SET } from "@tecack/dataset";
 
-const tecack = createTecack(document);
+const tecack = createTecack();
 tecack.mount("#viewer");
 
 const charInput = document.getElementById("char-input") as HTMLInputElement | null;

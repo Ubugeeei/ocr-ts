@@ -9,7 +9,7 @@ Creates Tecack instance for drawing on canvas.
 - #### Type
 
   ```ts
-  function createTecack(document: Document): Tecack;
+  function createTecack(): Tecack;
 
   interface Tecack {
     mount: (selector: string) => void | InitializeError;
@@ -22,7 +22,6 @@ Creates Tecack instance for drawing on canvas.
     // redraw: () => void | CanvasCtxNotFoundError;
     // normalizeLinear: () => void;
     // draw: (color?: string) => void | CanvasCtxNotFoundError;
-    // copyStuff: () => void;
   }
   ```
 
@@ -31,7 +30,7 @@ Creates Tecack instance for drawing on canvas.
   ```ts
   import { createTecack } from "@tecack/frontend";
 
-  const tecack = createTecack(document);
+  const tecack = createTecack();
   ```
 
 ### Tecack.mount()
@@ -49,7 +48,7 @@ Mounts Tecack instance to canvas element.
   ```ts
   import { createTecack, InitializeError } from "@tecack/frontend";
 
-  const tecack = createTecack(document);
+  const tecack = createTecack();
   const res = tecack.mount("#my-canvas");
   if (res instanceof InitializeError) {
     // handle error
@@ -71,7 +70,7 @@ Deletes last stroke from canvas and instance internal data.
   ```ts
   import { createTecack, CanvasCtxNotFoundError } from "@tecack/frontend";
 
-  const tecack = createTecack(document);
+  const tecack = createTecack();
   tecack.mount("#my-canvas");
 
   const deleteLastButton = document.getElementById("delete-last");
@@ -98,7 +97,7 @@ Erases all strokes from canvas and instance internal data.
   ```ts
   import { createTecack, CanvasCtxNotFoundError } from "@tecack/frontend";
 
-  const tecack = createTecack(document);
+  const tecack = createTecack();
   tecack.mount("#my-canvas");
 
   const eraseButton = document.getElementById("erase");
@@ -126,7 +125,7 @@ You can use this data for restore strokes or backend recognition.
   ```ts
   import { createTecack } from "@tecack/frontend";
 
-  const tecack = createTecack(document);
+  const tecack = createTecack();
   tecack.mount("#my-canvas");
 
   const strokes = tecack.getStrokes();

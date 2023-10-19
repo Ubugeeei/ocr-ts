@@ -22,7 +22,7 @@ or install partial packages (e.g. `@tecack/frontend`: [read more documentation](
 ```ts
 import { createTecack, recognize, KANJI_DATA_SET } from "tecack";
 
-const tecack = createTecack(document);
+const tecack = createTecack();
 
 tecack.mount("#my-canvas");
 
@@ -39,7 +39,7 @@ window.addEventListener("mouseup", () => {
 // client
 import { createTecack } from "@tecack/frontend";
 
-const tecack = createTecack(document);
+const tecack = createTecack();
 
 tecack.mount("#my-canvas");
 

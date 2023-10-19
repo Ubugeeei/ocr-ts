@@ -5,7 +5,7 @@ import { recognize } from "@tecack/backend";
 import { KANJI_DATA_SET } from "@tecack/dataset";
 import { HIRAGANA_DATA } from "./hiragana";
 
-const tecack = createTecack(document);
+const tecack = createTecack();
 tecack.mount("#tecack-sample");
 
 const candidateContainer = document.getElementById("candidate-container")!;
