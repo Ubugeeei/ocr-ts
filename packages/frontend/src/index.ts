@@ -40,7 +40,7 @@ export interface Tecack {
     strokesMut: Readonly<Array<TecackStroke>>,
     options?: {
       /** default: `true` */
-      withDraw?: boolean;
+      withDraw: boolean;
     },
   ): void;
   getStrokes: () => Readonly<Array<TecackStroke>>;
