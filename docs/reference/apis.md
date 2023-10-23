@@ -70,6 +70,50 @@ Mounts Tecack instance to canvas element.
   }
   ```
 
+### Tecack.unmount()
+
+unmounts canvas element from Tecack instance.
+
+The contents of the tecack instance are retained, only the association with the DOM is removed.  
+(Discard retention of event listeners and $el's.)
+
+In the default state, canvas is cleaned up and the drawing content is overwritten in the background if backgroundPainter is set.
+
+- #### Type
+
+  ```ts
+  function mount( {
+    /** default: `true` */
+    cleanCanvas?: boolean;
+    /**
+     * default: `false`
+     *
+     * When this option is enabled, the cleanCanvas option is ignored.
+     */
+    force?: boolean;
+  }): void;
+  ```
+
+- #### Example
+
+  ```ts
+  import { createTecack, InitializeError } from "@tecack/frontend";
+
+  const tecack = createTecack();
+  tecack.mount("#my-canvas");
+  tecack.unmount();
+  ```
+
+  ```ts
+  //  setting cleanCanvas to false will keep the current canvas drawing state
+  tecack.unmount({ cleanCanvas: false });
+  ```
+
+  ```ts
+  // umount the canvas with a complete cleanup (Background is not rendered.)
+  tecack.unmount({ force: false });
+  ```
+
 ### Tecack.deleteLast()
 
 Deletes last stroke from canvas and instance internal data.
