@@ -9,7 +9,29 @@ export interface TecackOptions {
 
 export interface Tecack {
   $el: HTMLCanvasElement | null;
+
   mount: (selector: string) => void | InitializeError;
+
+  /**
+   * The contents of the tecack instance are retained, only the association with the DOM is removed.
+   *
+   * (Discard retention of event listeners and $el's.)
+   */
+  unmount: (options: {
+    /**
+     * default: `true`
+     *
+     * setting cleanCanvas to false will keep the current canvas drawing state
+     */
+    cleanCanvas?: boolean;
+    /**
+     * default: `false`
+     *
+     * When this option is enabled, the cleanCanvas option is ignored.
+     */
+    force?: boolean;
+  }) => void;
+
   draw: (color?: string) => void | CanvasCtxNotFoundError;
   deleteLast: () => void | CanvasCtxNotFoundError;
   erase: () => void | CanvasCtxNotFoundError;
@@ -22,7 +44,7 @@ export interface Tecack {
 export function createTecack(options?: TecackOptions): Tecack {
   // private properties
   let _selector: string;
-  let _canvas: HTMLCanvasElement;
+  let _canvas: HTMLCanvasElement | null;
   let _ctx: CanvasRenderingContext2D | null;
   let _w: number;
   let _h: number;
@@ -47,6 +69,17 @@ export function createTecack(options?: TecackOptions): Tecack {
   let _dot_flag: boolean;
   let _recordedPattern: Array<TecackStroke>;
   let _currentLine: TecackStroke | null;
+
+  const listeners: { [event: Parameters<typeof document.addEventListener>[0]]: (e: Event) => void } = {
+    mousemove: e => _find_x_y("move", e as MouseEvent),
+    mousedown: e => _find_x_y("down", e as MouseEvent),
+    mouseup: e => _find_x_y("up", e as MouseEvent),
+    mouseout: e => _find_x_y("out", e as MouseEvent),
+    mouseover: e => _find_x_y("over", e as MouseEvent),
+    touchmove: e => _find_x_y("move", e as TouchEvent),
+    touchstart: e => _find_x_y("down", e as TouchEvent),
+    touchend: e => _find_x_y("up", e as TouchEvent),
+  };
 
   // NOTE: Initialized with null or undefined to ensure compatibility with pre-fork implementations.
   const tecack: Tecack = {
@@ -79,64 +112,23 @@ export function createTecack(options?: TecackOptions): Tecack {
       _currentLine = null;
       options?.backgroundPainter?.(_canvas);
 
-      _canvas.addEventListener(
-        "mousemove",
-        function (e) {
-          _find_x_y("move", e);
-        },
-        false,
-      );
-      _canvas.addEventListener(
-        "mousedown",
-        function (e) {
-          _find_x_y("down", e);
-        },
-        false,
-      );
-      _canvas.addEventListener(
-        "mouseup",
-        function (e) {
-          _find_x_y("up", e);
-        },
-        false,
-      );
-      _canvas.addEventListener(
-        "mouseout",
-        function (e) {
-          _find_x_y("out", e);
-        },
-        false,
-      );
-      _canvas.addEventListener(
-        "mouseover",
-        function (e) {
-          _find_x_y("over", e);
-        },
-        false,
-      );
+      // attach listeners
+      Object.entries(listeners).forEach(([event, listener]) => _canvas?.addEventListener(event, listener));
+    },
 
-      // touch events
-      _canvas.addEventListener(
-        "touchmove",
-        function (e) {
-          _find_x_y("move", e);
-        },
-        false,
-      );
-      _canvas.addEventListener(
-        "touchstart",
-        function (e) {
-          _find_x_y("down", e);
-        },
-        false,
-      );
-      _canvas.addEventListener(
-        "touchend",
-        function (e) {
-          _find_x_y("up", e);
-        },
-        false,
-      );
+    unmount: ({ cleanCanvas = true, force = false }) => {
+      // detach listeners
+      Object.entries(listeners).forEach(([event, listener]) => _canvas?.removeEventListener(event, listener));
+
+      // clear canvas
+      if (cleanCanvas) {
+        _ctx?.clearRect(0, 0, _w, _h);
+        _canvas && !force && options?.backgroundPainter?.(_canvas);
+      }
+
+      // reset properties
+      _canvas = tecack.$el = null;
+      _ctx = null;
     },
 
     draw: color => {
@@ -159,7 +151,7 @@ export function createTecack(options?: TecackOptions): Tecack {
       }
       _ctx.clearRect(0, 0, _w, _h);
 
-      options?.backgroundPainter?.(_canvas);
+      _canvas && options?.backgroundPainter?.(_canvas);
       for (var i = 0; i < _recordedPattern.length - 1; i++) {
         var stroke_i = _recordedPattern[i];
         for (var j = 0; j < stroke_i.length - 1; j++) {
@@ -179,7 +171,7 @@ export function createTecack(options?: TecackOptions): Tecack {
       }
       _ctx.clearRect(0, 0, _w, _h);
       _recordedPattern.length = 0;
-      options?.backgroundPainter?.(_canvas);
+      _canvas && options?.backgroundPainter?.(_canvas);
     },
 
     redraw: () => {
@@ -188,7 +180,7 @@ export function createTecack(options?: TecackOptions): Tecack {
       }
       _ctx.clearRect(0, 0, _w, _h);
 
-      options?.backgroundPainter?.(_canvas);
+      _canvas && options?.backgroundPainter?.(_canvas);
       // draw strokes
       for (var i = 0; i < _recordedPattern.length; i++) {
         var stroke_i = _recordedPattern[i];
@@ -204,7 +196,7 @@ export function createTecack(options?: TecackOptions): Tecack {
       }
 
       // draw stroke numbers
-      if (_canvas.dataset.strokeNumbers != "false") {
+      if (_canvas?.dataset.strokeNumbers != "false") {
         for (var i = 0; i < _recordedPattern.length; i++) {
           var stroke_i = _recordedPattern[i],
             x = stroke_i[Math.floor(stroke_i.length / 2)][0] + 5,
@@ -229,7 +221,7 @@ export function createTecack(options?: TecackOptions): Tecack {
         return createCanvasError();
       }
       _ctx.clearRect(0, 0, _w, _h);
-      options?.backgroundPainter?.(_canvas);
+      _canvas && options?.backgroundPainter?.(_canvas);
       _recordedPattern = [...strokesMut];
       for (var i = 0; i < _recordedPattern.length; i++) {
         var stroke_i = _recordedPattern[i];
@@ -301,7 +293,7 @@ export function createTecack(options?: TecackOptions): Tecack {
 
     if (isTouch) e.preventDefault(); // prevent scrolling while drawing to the canvas
 
-    if (res == "down") {
+    if (res == "down" && _canvas) {
       var rect = _canvas.getBoundingClientRect();
       _prevX = _currX;
       _prevY = _currY;
@@ -338,7 +330,7 @@ export function createTecack(options?: TecackOptions): Tecack {
       _flagDown = false;
     }
 
-    if (res == "move") {
+    if (res == "move" && _canvas) {
       if (_flagOver && _flagDown) {
         var rect = _canvas.getBoundingClientRect();
         _prevX = _currX;
