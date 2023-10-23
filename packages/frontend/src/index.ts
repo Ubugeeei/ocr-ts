@@ -17,7 +17,7 @@ export interface Tecack {
    *
    * (Discard retention of event listeners and $el's.)
    */
-  unmount: (options: {
+  unmount: (options?: {
     /**
      * default: `true`
      *
@@ -116,7 +116,8 @@ export function createTecack(options?: TecackOptions): Tecack {
       Object.entries(listeners).forEach(([event, listener]) => _canvas?.addEventListener(event, listener));
     },
 
-    unmount: ({ cleanCanvas = true, force = false }) => {
+    unmount: unmountOptions => {
+      const { cleanCanvas = true, force = false } = unmountOptions || {};
       // detach listeners
       Object.entries(listeners).forEach(([event, listener]) => _canvas?.removeEventListener(event, listener));
 

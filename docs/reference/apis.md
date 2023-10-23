@@ -82,7 +82,7 @@ In the default state, canvas is cleaned up and the drawing content is overwritte
 - #### Type
 
   ```ts
-  function mount( {
+  function mount(options?: {
     /** default: `true` */
     cleanCanvas?: boolean;
     /**
