@@ -14,7 +14,7 @@ export interface Tecack {
   deleteLast: () => void | CanvasCtxNotFoundError;
   erase: () => void | CanvasCtxNotFoundError;
   redraw: () => void | CanvasCtxNotFoundError;
-  restoreFromStrokes(strokesMut: Array<TecackStroke>): void;
+  restoreFromStrokes(strokesMut: Readonly<Array<TecackStroke>>): void;
   getStrokes: () => Readonly<Array<TecackStroke>>;
   normalizeLinear: () => void;
 }
@@ -230,7 +230,7 @@ export function createTecack(options?: TecackOptions): Tecack {
       }
       _ctx.clearRect(0, 0, _w, _h);
       options?.backgroundPainter?.(_canvas);
-      _recordedPattern = strokesMut;
+      _recordedPattern = [...strokesMut];
       for (var i = 0; i < _recordedPattern.length; i++) {
         var stroke_i = _recordedPattern[i];
         for (var j = 0; j < stroke_i.length - 1; j++) {
