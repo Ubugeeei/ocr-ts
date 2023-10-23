@@ -54,12 +54,12 @@ export function createTecack(options?: TecackOptions): Tecack {
   let _ctx: CanvasRenderingContext2D | null;
   let _w: number;
   let _h: number;
-  let _flagOver: boolean;
-  let _flagDown: boolean;
-  let _prevX: number;
-  let _currX: number;
-  let _prevY: number;
-  let _currY: number;
+  let _flagOver: boolean = false;
+  let _flagDown: boolean = false;
+  let _prevX: number = 0;
+  let _currX: number = 0;
+  let _prevY: number = 0;
+  let _currY: number = 0;
   let _newHeight: number;
   let _newWidth: number;
   let _oldHeight: number;
@@ -72,9 +72,9 @@ export function createTecack(options?: TecackOptions): Tecack {
   let _y: number;
   let _xNorm: number;
   let _yNorm: number;
-  let _dot_flag: boolean;
-  let _recordedPattern: Array<TecackStroke>;
-  let _currentLine: TecackStroke | null;
+  let _dot_flag: boolean = false;
+  let _recordedPattern: Array<TecackStroke> = new Array();
+  let _currentLine: TecackStroke | null = null;
 
   const listeners: { [event: Parameters<typeof document.addEventListener>[0]]: (e: Event) => void } = {
     mousemove: e => _find_x_y("move", e as MouseEvent),
@@ -90,6 +90,7 @@ export function createTecack(options?: TecackOptions): Tecack {
   // NOTE: Initialized with null or undefined to ensure compatibility with pre-fork implementations.
   const tecack: Tecack = {
     $el: null,
+
     mount: selector => {
       _selector = selector;
       const c = window.document.querySelector(_selector);
@@ -101,21 +102,16 @@ export function createTecack(options?: TecackOptions): Tecack {
           `Canvas#${_selector} is not an HTMLCanvasElement. got ${c.constructor.name} instead.`,
         );
       }
+
+      // set properties
       tecack.$el = c;
       _canvas = c;
       _canvas.tabIndex = 0; // makes canvas focusable, allowing usage of shortcuts
       _ctx = _canvas.getContext("2d");
       _w = _canvas.width;
       _h = _canvas.height;
-      _flagOver = false;
-      _flagDown = false;
-      _prevX = 0;
-      _currX = 0;
-      _prevY = 0;
-      _currY = 0;
-      _dot_flag = false;
-      _recordedPattern = new Array();
-      _currentLine = null;
+
+      // paint background
       options?.backgroundPainter?.(_canvas);
 
       // attach listeners
