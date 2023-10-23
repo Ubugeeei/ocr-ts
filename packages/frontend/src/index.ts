@@ -8,6 +8,7 @@ export interface TecackOptions {
 }
 
 export interface Tecack {
+  $el: HTMLCanvasElement | null;
   mount: (selector: string) => void | InitializeError;
   draw: (color?: string) => void | CanvasCtxNotFoundError;
   deleteLast: () => void | CanvasCtxNotFoundError;
@@ -49,6 +50,7 @@ export function createTecack(options?: TecackOptions): Tecack {
 
   // NOTE: Initialized with null or undefined to ensure compatibility with pre-fork implementations.
   const tecack: Tecack = {
+    $el: null,
     mount: selector => {
       _selector = selector;
       const c = window.document.querySelector(_selector);
@@ -60,6 +62,7 @@ export function createTecack(options?: TecackOptions): Tecack {
           `Canvas#${_selector} is not an HTMLCanvasElement. got ${c.constructor.name} instead.`,
         );
       }
+      tecack.$el = c;
       _canvas = c;
       _canvas.tabIndex = 0; // makes canvas focusable, allowing usage of shortcuts
       _ctx = _canvas.getContext("2d");
