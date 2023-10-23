@@ -205,7 +205,13 @@ Restores canvas strokes and internal data from existing strokes data.
 - #### Type
 
   ```ts
-  function restoreFromStrokes(strokesMut: Readonly<Array<TecackStroke>>): void;
+  function restoreFromStrokes(
+    strokesMut: Readonly<Array<TecackStroke>>,
+    options?: {
+      /** default: `true` */
+      withDraw: boolean;
+    },
+  ): void;
   ```
 
 - #### Example
