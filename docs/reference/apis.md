@@ -105,7 +105,7 @@ In the default state, canvas is cleaned up and the drawing content is overwritte
   ```
 
   ```ts
-  //  setting cleanCanvas to false will keep the current canvas drawing state
+  // setting cleanCanvas to false will keep the current canvas drawing state
   tecack.unmount({ cleanCanvas: false });
   ```
 
@@ -297,11 +297,7 @@ And, decodes encoded string.
   // ex2: save to database as encoded text data
   app.post("/save-stroke", async c => {
     const req = await c.req.json();
-    const decoded = decodeStroke(req.strokes); // here
-    if (decoded instanceof DecodeError) {
-      return c.json({ error: decoded.message });
-    }
-    await myDb.save({ decoded }); // save to database as encoded text data
+    await myDb.save(req.strokes); // save to database as encoded text data
     return c.json({ ok: true });
   });
   ```
