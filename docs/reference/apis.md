@@ -250,7 +250,7 @@ Recognizes strokes data and returns candidates.
 
 ### encodeStroke() / decodeStroke()
 
-Encodes `Array<TecackDataset>` data to minimize size.  
+Encodes `Array<TecackStroke>` data to minimize size.  
 And, decodes encoded string.
 
 - #### Type
