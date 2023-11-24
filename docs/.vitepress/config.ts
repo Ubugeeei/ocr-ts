@@ -8,10 +8,18 @@ export default defineConfig({
   lang: "en",
   appearance: "dark",
   head: [
+    ["link", { rel: "icon", href: "https://github.com/Ubugeeei/tecack/blob/main/docs/public/tecack.gif?raw=true" }],
+
     // og
     ["meta", { property: "og:site_name", content: "tecack" }],
     ["meta", { property: "og:url", content: "https://ubugeeei.github.io/tecack" }],
-    ["meta", { property: "og:title", content: "tecack" }],
+    [
+      "meta",
+      {
+        property: "og:title",
+        content: "tecack | The hand-writing recognition engine",
+      },
+    ],
     [
       "meta",
       {
@@ -19,19 +27,14 @@ export default defineConfig({
         content: "The hand-writing recognition engine built with TypeScript. Forked from KanjiCanvas.",
       },
     ],
-    // TODO:
-    // [
-    //   "meta",
-    //   {
-    //     property: "og:image",
-    //     content: "https://github.com/Ubugeeei/tecack/blob/main/docs/public/tecack-img.png?raw=true",
-    //   },
-    // ],
+    [
+      "meta",
+      { property: "og:image", content: "https://github.com/Ubugeeei/tecack/blob/main/docs/public/tecack.gif?raw=true" },
+    ],
     ["meta", { property: "og:image:alt", content: "tecack" }],
+    // x
     ["meta", { name: "twitter:site", content: "tecack" }],
-    // TODO:
-    // ["meta", { name: "twitter:card", content: "summary_large_image" }],
-    ["meta", { name: "twitter:title", content: "tecack" }],
+    ["meta", { name: "twitter:title", content: "tecack | The hand-writing recognition engine" }],
     [
       "meta",
       {
@@ -39,14 +42,14 @@ export default defineConfig({
         content: "The hand-writing recognition engine built with TypeScript. Forked from KanjiCanvas.",
       },
     ],
-    // TODO:
-    // [
-    //   "meta",
-    //   {
-    //     name: "twitter:image",
-    //     content: "https://github.com/Ubugeeei/tecack/blob/main/docs/public/tecack-img.png?raw=true",
-    //   },
-    // ],
+    ["meta", { name: "twitter:card", content: "summary_large_image" }],
+    [
+      "meta",
+      {
+        name: "twitter:image",
+        content: "https://github.com/Ubugeeei/tecack/blob/main/docs/public/tecack.gif?raw=true",
+      },
+    ],
     ["meta", { name: "twitter:image:alt", content: "tecack" }],
   ],
   themeConfig: {
