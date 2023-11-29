@@ -15,7 +15,7 @@ TecackStrokes     :=   [ { TecackStroke } ... ]
 TecackStroke      :=   [ { Position } ... ]
 Position          :=   X Y
 X                 :=   number
-you               :=   number
+Y                 :=   number
 
 ```
 
