@@ -7,6 +7,31 @@ export interface TecackOptions {
   backgroundPainter?: (el: HTMLCanvasElement) => void;
 }
 
+export interface DrawStrokeOrderOptions {
+  /** default: `false` */
+  withColor?: boolean;
+
+  /**
+   * default:
+   * ```ts
+   * [
+   *   "#bf0000", "#bf5600", "#bfac00", "#7cbf00", "#26bf00",
+   *   "#00bf2f", "#00bf85", "#00a2bf", "#004cbf", "#0900bf",
+   *   "#5f00bf", "#b500bf", "#bf0072", "#bf001c", "#bf2626",
+   *   "#bf6b26", "#bfaf26", "#89bf26", "#44bf26", "#26bf4c",
+   *   "#26bf91", "#26a8bf", "#2663bf", "#2d26bf", "#7226bf",
+   *   "#b726bf", "#bf2682", "#bf263d", "#bf4c4c", "#bf804c",
+   * ]
+   * ```
+   * color coded stroke colors (for 30 strokes)
+   *
+   * based on https://kanjivg.tagaini.net/viewer.html
+   *
+   * NOTE: must be 6-digit hex color codes (e.g. `#ff0000`)
+   */
+  colorSet?: Array<string>;
+}
+
 export interface Tecack {
   $el: HTMLCanvasElement | null;
 
@@ -35,7 +60,7 @@ export interface Tecack {
   draw: (color?: string) => void | CanvasCtxNotFoundError;
   deleteLast: () => void | CanvasCtxNotFoundError;
   erase: () => void | CanvasCtxNotFoundError;
-  redraw: () => void | CanvasCtxNotFoundError;
+  drawStrokeOrder: (options?: DrawStrokeOrderOptions) => void | CanvasCtxNotFoundError;
   restoreFromStrokes(
     strokesMut: Readonly<Array<TecackStroke>>,
     options?: {
@@ -177,7 +202,14 @@ export function createTecack(options?: TecackOptions): Tecack {
       _canvas && options?.backgroundPainter?.(_canvas);
     },
 
-    redraw: () => {
+    drawStrokeOrder: opt => {
+      const defaultOptions: Required<DrawStrokeOrderOptions> = {
+        withColor: false,
+        colorSet: STROKE_COLORS,
+      };
+      const mergedOptions = { ...defaultOptions, ...opt };
+      const BASE_COLOR = "#333333";
+
       if (!_ctx) {
         return createCanvasError();
       }
@@ -194,7 +226,7 @@ export function createTecack(options?: TecackOptions): Tecack {
 
           _currX = stroke_i[j + 1][0];
           _currY = stroke_i[j + 1][1];
-          tecack.draw(STROKE_COLORS[i]);
+          tecack.draw(mergedOptions.withColor ? mergedOptions.colorSet[i % mergedOptions.colorSet.length] : BASE_COLOR);
         }
       }
 
@@ -209,11 +241,20 @@ export function createTecack(options?: TecackOptions): Tecack {
 
           // outline
           _ctx.lineWidth = 3;
-          _ctx.strokeStyle = _alterHex(STROKE_COLORS[i] ? STROKE_COLORS[i] : "#333333", 60, "dec");
+          _ctx.strokeStyle = _alterHex(
+            mergedOptions.withColor && mergedOptions.colorSet[i % mergedOptions.colorSet.length]
+              ? mergedOptions.colorSet[i % mergedOptions.colorSet.length]
+              : BASE_COLOR,
+            60,
+            "dec",
+          );
           _ctx.strokeText((i + 1).toString(), x, y);
 
           // fill
-          _ctx.fillStyle = STROKE_COLORS[i] ? STROKE_COLORS[i] : "#333";
+          _ctx.fillStyle =
+            mergedOptions.withColor && mergedOptions.colorSet[i % mergedOptions.colorSet.length]
+              ? mergedOptions.colorSet[i % mergedOptions.colorSet.length]
+              : BASE_COLOR;
           _ctx.fillText((i + 1).toString(), x, y);
         }
       }
@@ -283,7 +324,7 @@ export function createTecack(options?: TecackOptions): Tecack {
         normalizedPattern.push(normalized_stroke_i);
       }
       _recordedPattern = normalizedPattern;
-      tecack.redraw();
+      // tecack.redraw(); // FIXME:
     },
 
     getStrokes: () => {
