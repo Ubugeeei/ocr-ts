@@ -221,6 +221,68 @@ Restores canvas strokes and internal data from existing strokes data.
   tecack.restoreFromStrokes(strokes);
   ```
 
+### Tecack.drawStrokeOrder()
+
+It draws the stroke order on the strokes entered into the Canvas.
+
+- #### Type
+
+  ```ts
+  function drawStrokeOrder(options?: DrawStrokeOrderOptions): void | CanvasCtxNotFoundError;
+  ```
+
+- #### Example
+
+  ```ts
+  tecack.drawStrokeOrder();
+  ```
+
+### DrawStrokeOrderOptions
+
+Options for `Tecack.drawStrokeOrder()`
+
+- #### Type
+
+  ```ts
+  export interface DrawStrokeOrderOptions {
+    withColor?: boolean;
+    colorSet?: Array<string>;
+  }
+  ```
+
+#### DrawStrokeOrderOptions.withColor
+
+When `withColor` is enabled, it draws each stroke in a different color.  
+This is to make it easier to understand which stroke order corresponds to which stroke.  
+Please refer to the `colorSet` to see which colors will be used for the drawing.
+
+default: `false`
+
+#### DrawStrokeOrderOptions.colorSet
+
+This is the set of colors used when `withColor` is enabled.  
+The index of the color set (array) corresponds to the stroke order, and if the stroke order exceeds the length of the color set, it will cycle through.
+
+::: warning
+Please note that the colors (strings) registered as `colorSet` **must be six-digit hexadecimal numbers starting with `#`**.  
+(Shortened three-digit notation, specific color names, and rgb notation cannot be used.)
+:::
+
+default:
+
+```ts
+// prettier-ignore
+/** based on https://kanjivg.tagaini.net/viewer.html */
+[
+  "#bf0000", "#bf5600", "#bfac00", "#7cbf00", "#26bf00",
+  "#00bf2f", "#00bf85", "#00a2bf", "#004cbf", "#0900bf",
+  "#5f00bf", "#b500bf", "#bf0072", "#bf001c", "#bf2626",
+  "#bf6b26", "#bfaf26", "#89bf26", "#44bf26", "#26bf4c",
+  "#26bf91", "#26a8bf", "#2663bf", "#2d26bf", "#7226bf",
+  "#b726bf", "#bf2682", "#bf263d", "#bf4c4c", "#bf804c",
+]
+```
+
 ## @tecack/backend
 
 ### recognize()
