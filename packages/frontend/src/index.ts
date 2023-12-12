@@ -30,6 +30,14 @@ export interface DrawStrokeOrderOptions {
    * NOTE: must be 6-digit hex color codes (e.g. `#ff0000`)
    */
   colorSet?: Array<string>;
+
+  font?: {
+    /** default: "helvetica" */
+    family?: string;
+
+    /** default: "16px" */
+    size?: string;
+  };
 }
 
 export interface Tecack {
@@ -203,12 +211,8 @@ export function createTecack(options?: TecackOptions): Tecack {
     },
 
     drawStrokeOrder: opt => {
-      const defaultOptions: Required<DrawStrokeOrderOptions> = {
-        withColor: false,
-        colorSet: STROKE_COLORS,
-      };
-      const mergedOptions = { ...defaultOptions, ...opt };
-      const BASE_COLOR = "#333333";
+      const merged = mergeDrawStrokeOrderOptions(opt ?? {});
+      const BASE_COLOR = "#444444";
 
       if (!_ctx) {
         return createCanvasError();
@@ -226,7 +230,7 @@ export function createTecack(options?: TecackOptions): Tecack {
 
           _currX = stroke_i[j + 1][0];
           _currY = stroke_i[j + 1][1];
-          tecack.draw(mergedOptions.withColor ? mergedOptions.colorSet[i % mergedOptions.colorSet.length] : BASE_COLOR);
+          tecack.draw(merged.withColor ? merged.colorSet[i % merged.colorSet.length] : BASE_COLOR);
         }
       }
 
@@ -237,13 +241,13 @@ export function createTecack(options?: TecackOptions): Tecack {
             x = stroke_i[Math.floor(stroke_i.length / 2)][0] + 5,
             y = stroke_i[Math.floor(stroke_i.length / 2)][1] - 5;
 
-          _ctx.font = "20px Arial";
+          _ctx.font = `${merged.font.size} ${merged.font.family}`;
 
           // outline
-          _ctx.lineWidth = 3;
+          _ctx.lineWidth = 0.5;
           _ctx.strokeStyle = _alterHex(
-            mergedOptions.withColor && mergedOptions.colorSet[i % mergedOptions.colorSet.length]
-              ? mergedOptions.colorSet[i % mergedOptions.colorSet.length]
+            merged.withColor && merged.colorSet[i % merged.colorSet.length]
+              ? merged.colorSet[i % merged.colorSet.length]
               : BASE_COLOR,
             60,
             "dec",
@@ -252,8 +256,8 @@ export function createTecack(options?: TecackOptions): Tecack {
 
           // fill
           _ctx.fillStyle =
-            mergedOptions.withColor && mergedOptions.colorSet[i % mergedOptions.colorSet.length]
-              ? mergedOptions.colorSet[i % mergedOptions.colorSet.length]
+            merged.withColor && merged.colorSet[i % merged.colorSet.length]
+              ? merged.colorSet[i % merged.colorSet.length]
               : BASE_COLOR;
           _ctx.fillText((i + 1).toString(), x, y);
         }
@@ -468,3 +472,27 @@ const STROKE_COLORS = [
   "#bf4c4c",
   "#bf804c",
 ];
+
+type DeepRequired<T> = {
+  [P in keyof T]-?: DeepRequired<T[P]>;
+};
+
+const mergeDrawStrokeOrderOptions = (users: DrawStrokeOrderOptions): DeepRequired<DrawStrokeOrderOptions> => {
+  const defaultOptions: DeepRequired<DrawStrokeOrderOptions> = {
+    withColor: false,
+    colorSet: STROKE_COLORS,
+    font: {
+      family: "helvetica",
+      size: "16px",
+    },
+  };
+
+  return {
+    withColor: users.withColor ?? defaultOptions.withColor,
+    colorSet: users.colorSet ?? defaultOptions.colorSet,
+    font: {
+      family: users.font?.family ?? defaultOptions.font.family,
+      size: users.font?.size ?? defaultOptions.font.size,
+    },
+  };
+};

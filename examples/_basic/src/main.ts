@@ -48,6 +48,12 @@ eraseBtn &&
     candidateContainer.textContent = "";
   });
 
+const ordBtn = document.getElementById("ord-btn");
+ordBtn &&
+  ordBtn.addEventListener("click", () => {
+    tecack.drawStrokeOrder();
+  });
+
 window.addEventListener("mouseup", () => rec());
 window.addEventListener("touchend", () => rec());
 tecack.mount("#tecack-sample");
