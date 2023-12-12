@@ -247,6 +247,10 @@ Options for `Tecack.drawStrokeOrder()`
   export interface DrawStrokeOrderOptions {
     withColor?: boolean;
     colorSet?: Array<string>;
+    font?: {
+      family?: string;
+      size?: string;
+    };
   }
   ```
 
@@ -281,6 +285,19 @@ default:
   "#26bf91", "#26a8bf", "#2663bf", "#2d26bf", "#7226bf",
   "#b726bf", "#bf2682", "#bf263d", "#bf4c4c", "#bf804c",
 ]
+```
+
+#### DrawStrokeOrderOptions.font
+
+This is the font used when drawing the stroke order.
+
+default:
+
+```ts
+{
+  family: "helvetica", // inspired by https://kanjivg.tagaini.net
+  size: "16px",
+}
 ```
 
 ## @tecack/backend
