@@ -1,6 +1,6 @@
 {
   "name": "@example/tools",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "scripts": {
     "tecack": "node ../../packages/tools/bin/bin.js",
     "codegen": "node ../../packages/tools/bin/bin.js codegen",
