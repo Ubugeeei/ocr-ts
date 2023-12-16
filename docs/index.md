@@ -13,7 +13,7 @@ hero:
       link: /introduction/getting-started
     - theme: alt
       text: View on Github
-      link: https://github.com/Ubugeeei/tecack
+      link: https://github.com/ublib/tecack
     - theme: alt
       text: KanjiCanvas (Original Project)
       link: https://github.com/asdfjkl/kanjicanvas

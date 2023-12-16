@@ -8,11 +8,11 @@ export default defineConfig({
   lang: "en",
   appearance: "dark",
   head: [
-    ["link", { rel: "icon", href: "https://github.com/Ubugeeei/tecack/blob/main/docs/public/tecack.gif?raw=true" }],
+    ["link", { rel: "icon", href: "https://github.com/ublib/tecack/blob/main/docs/public/tecack.gif?raw=true" }],
 
     // og
     ["meta", { property: "og:site_name", content: "tecack" }],
-    ["meta", { property: "og:url", content: "https://ubugeeei.github.io/tecack" }],
+    ["meta", { property: "og:url", content: "https://ublib.github.io/tecack" }],
     [
       "meta",
       {
@@ -29,7 +29,7 @@ export default defineConfig({
     ],
     [
       "meta",
-      { property: "og:image", content: "https://github.com/Ubugeeei/tecack/blob/main/docs/public/tecack.gif?raw=true" },
+      { property: "og:image", content: "https://github.com/ublib/tecack/blob/main/docs/public/tecack.gif?raw=true" },
     ],
     ["meta", { property: "og:image:alt", content: "tecack" }],
     // x
@@ -47,7 +47,7 @@ export default defineConfig({
       "meta",
       {
         name: "twitter:image",
-        content: "https://github.com/Ubugeeei/tecack/blob/main/docs/public/tecack.gif?raw=true",
+        content: "https://github.com/ublib/tecack/blob/main/docs/public/tecack.gif?raw=true",
       },
     ],
     ["meta", { name: "twitter:image:alt", content: "tecack" }],
@@ -94,9 +94,9 @@ export default defineConfig({
       },
     ],
     editLink: {
-      pattern: "https://github.com/Ubugeeei/tecack/tree/main/docs/:path",
+      pattern: "https://github.com/ublib/tecack/tree/main/docs/:path",
       text: "Suggest changes to this page",
     },
-    socialLinks: [{ icon: "github", link: "https://github.com/Ubugeeei/tecack" }],
+    socialLinks: [{ icon: "github", link: "https://github.com/ublib/tecack" }],
   },
 });

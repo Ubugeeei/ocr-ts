@@ -35,4 +35,4 @@ This includes browsers, as well as Node.js, Deno, and Bun.
 
 # Next
 
-**[Try it out by cloning (`nr play`)](https://github.com/Ubugeeei/tecack) or [Read tutorial](/introduction/getting-started.md) !**
+**[Try it out by cloning (`nr play`)](https://github.com/ublib/tecack) or [Read tutorial](/introduction/getting-started.md) !**

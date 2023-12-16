@@ -12,10 +12,10 @@
     "kanji",
     "japanese"
   ],
-  "homepage": "https://ubugeeei.github.io/tecack",
+  "homepage": "https://ublib.github.io/tecack",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ubugeeei/tecack.git",
+    "url": "https://github.com/ublib/tecack.git",
     "directory": "packages/dataset"
   },
   "files": [
