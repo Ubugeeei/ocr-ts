@@ -1,26 +1,18 @@
 import fs from "node:fs";
 import path from "node:path";
+import { execSync } from "node:child_process";
+
 import * as esbuild from "esbuild";
 import { rimraf } from "rimraf";
+import { bundle } from "dts-bundle";
 
-/** @type {(str: string) => string} */
-const blue = str => `\x1b[34m${str}\x1b[0m`;
-
-/** @type {(str: string) => string} */
-const green = str => `\x1b[32m${str}\x1b[0m`;
-
-/** @type {(dir: string) => void} */
-const finishedBuild = dir => console.log(`${green("✔︎")} build: ${blue(dir)}`);
+const blue = (str: string) => `\x1b[34m${str}\x1b[0m`;
+const green = (str: string) => `\x1b[32m${str}\x1b[0m`;
+const finishedBuild = (dir: string) => console.log(`${green("✔︎")} build: ${blue(dir)}`);
 
 const CLI_OUT_DIR = `packages/tools/bin`;
 
-/**
- * @type {() => PromiseLike<void>}
- */
 export const buildCli = async () => {
-  /**
-   * @type {import('esbuild').BuildOptions}
-   */
   await esbuild.build({
     entryPoints: [path.resolve("packages/tools/src/bin")],
     bundle: true,
@@ -44,23 +36,14 @@ export const buildCli = async () => {
   finishedBuild(`${CLI_OUT_DIR}/jTegaki.zip)`);
 };
 
-/**
- * @type {() => void}
- */
 export const clearCliSync = () => {
   rimraf.sync(CLI_OUT_DIR);
 };
 
 const PACKAGES = ["tecack", "frontend", "backend", "dataset", "shared"];
 
-/**
- * @type {() => PromiseLike<import('esbuild').BuildResult<{ entryPoints: string, outdir: string }>>[]}
- */
 export const buildTecack = () =>
   PACKAGES.map(pkg => {
-    /**
-     * @type {import('esbuild').BuildOptions}
-     */
     const res = esbuild.build({
       entryPoints: [path.resolve(`packages/${pkg}/src/index`)],
       bundle: true,
@@ -68,24 +51,37 @@ export const buildTecack = () =>
       target: "es2018",
       outdir: `packages/${pkg}/dist`,
       format: "esm",
+      plugins: [
+        {
+          name: "TypeScriptDeclarationsPlugin",
+          setup(build) {
+            build.onEnd(() => {
+              bundle({
+                name: pkg,
+                main: `temp/packages/${pkg}/src/index.d.ts`,
+                out: path.resolve(`packages/${pkg}/dist/index.d.ts`),
+              });
+            });
+          },
+        },
+      ],
     });
     res.then(() => finishedBuild(`packages/${pkg}/dist`));
     return res;
   });
 
-/**
- * @type {function(): void}
- */
 export const clearTecackSync = () => {
   PACKAGES.map(pkg => `packages/${pkg}/dist`).forEach(dir => rimraf.sync(dir));
 };
 
-(async function main() {
+await (async function main() {
   console.log("clear dist...");
   await Promise.allSettled([clearCliSync(), clearTecackSync()]);
   console.log(`${green("✔︎")} finished clearing dist`);
   console.log("building tecack...");
+  execSync("tsc -p tsconfig.build.json");
   const buildingTecack = buildTecack();
   const buildingCli = buildCli();
   await Promise.all([...buildingTecack, buildingCli]);
+  execSync("rm -rf temp");
 })();
