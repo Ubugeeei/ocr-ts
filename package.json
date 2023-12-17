@@ -22,9 +22,7 @@
   "scripts": {
     "prepare": "husky install",
     "deploy": "nr build && sh scripts/deploy.sh",
-    "build": "pnpm run bundle && pnpm run build:dts",
-    "bundle": "node scripts/build.js",
-    "build:dts": "rm -rf temp && tsc -p tsconfig.build.json && node scripts/dts.js && rm -rf temp",
+    "build": "tsx build",
     "fmt": "prettier",
     "lint": "ESLINT_USE_FLAT_CONFIG=true eslint",
     "spell-check": "cspell lint \"**\" --no-progress --show-suggestions --show-context --cache",
@@ -45,6 +43,7 @@
   },
   "devDependencies": {
     "cspell": "^7.3.8",
+    "dts-bundle": "^0.7.3",
     "esbuild": "^0.19.4",
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
@@ -52,6 +51,7 @@
     "lint-staged": "^15.0.1",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.5",
+    "tsx": "^3.12.2",
     "typescript": "^5.2.2",
     "vitepress": "1.0.0-rc.22"
   }
