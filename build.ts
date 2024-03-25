@@ -42,33 +42,30 @@ export const clearCliSync = () => {
 
 const PACKAGES = ["tecack", "frontend", "backend", "dataset", "shared"];
 
-export const buildTecack = () =>
-  PACKAGES.map(pkg => {
-    const res = esbuild.build({
-      entryPoints: [path.resolve(`packages/${pkg}/src/index`)],
-      bundle: true,
-      minify: true,
-      target: "es2018",
-      outdir: `packages/${pkg}/dist`,
-      format: "esm",
-      plugins: [
-        {
-          name: "TypeScriptDeclarationsPlugin",
-          setup(build) {
-            build.onEnd(() => {
-              bundle({
-                name: pkg,
-                main: `temp/packages/${pkg}/src/index.d.ts`,
-                out: path.resolve(`packages/${pkg}/dist/index.d.ts`),
-              });
-            });
-          },
-        },
-      ],
-    });
-    res.then(() => finishedBuild(`packages/${pkg}/dist`));
-    return res;
-  });
+export const buildTecack = async () => {
+  execSync("tsc -p tsconfig.build.json");
+  const ps = await Promise.all(
+    PACKAGES.map(pkg =>
+      esbuild
+        .build({
+          entryPoints: [path.resolve(`packages/${pkg}/src/index`)],
+          bundle: true,
+          target: "es2018",
+          outdir: `packages/${pkg}/dist`,
+          format: "esm",
+          sourcemap: true,
+        })
+        .then(ps => {
+          execSync(`cp -r temp/packages/${pkg}/src/* packages/${pkg}/dist/`);
+          execSync(`cp -r packages/${pkg}/src/* packages/${pkg}/dist/`);
+          finishedBuild(`packages/${pkg}/dist`);
+          return ps;
+        }),
+    ),
+  );
+  execSync(`rm -rf temp`);
+  return ps;
+};
 
 export const clearTecackSync = () => {
   PACKAGES.map(pkg => `packages/${pkg}/dist`).forEach(dir => rimraf.sync(dir));
@@ -79,9 +76,7 @@ await (async function main() {
   await Promise.allSettled([clearCliSync(), clearTecackSync()]);
   console.log(`${green("✔︎")} finished clearing dist`);
   console.log("building tecack...");
-  execSync("tsc -p tsconfig.build.json");
   const buildingTecack = buildTecack();
   const buildingCli = buildCli();
-  await Promise.all([...buildingTecack, buildingCli]);
-  execSync("rm -rf temp");
+  await Promise.all([...(await buildingTecack), buildingCli]);
 })();
