@@ -48,10 +48,10 @@ export function momentNormalize(kanji: Readonly<Array<TecackStroke>>): Array<Tec
   const yc_half: number = aranHeight / 2;
 
   const mu20_ = mu20(kanji, xc_);
-  const mu02_ = mu02(kanji, yc_);
+  // const mu02_ = mu02(kanji, yc_);
 
   const alpha: number = aranWidth / (4 * Math.sqrt(mu20_ / m00_));
-  const beta: number = aranHeight / (4 * Math.sqrt(mu02_ / m00_));
+  // const beta: number = aranHeight / (4 * Math.sqrt(mu02_ / m00_));
 
   for (let i = 0; i < kanji.length; i++) {
     const si = kanji[i];
@@ -131,11 +131,11 @@ function aran(width: number, height: number): number {
     r1 = height / width;
   }
 
-  const a: number = Math.PI / 2;
-  const b: number = a * r1;
-  const b1: number = Math.sin(b);
-  const c: number = Math.sqrt(b1);
-  const d: number = c;
+  // const a: number = Math.PI / 2;
+  // const b: number = a * r1;
+  // const b1: number = Math.sin(b);
+  // const c: number = Math.sqrt(b1);
+  // const d: number = c;
   const r2: number = Math.sqrt(Math.sin((Math.PI / 2) * r1));
 
   return r2;
