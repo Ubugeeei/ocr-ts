@@ -110,17 +110,17 @@ function mu20(pattern: Readonly<Array<TecackStroke>>, xc: number): number {
   return sum_;
 }
 
-function mu02(pattern: Readonly<Array<TecackStroke>>, yc: number): number {
-  let sum_: number = 0;
-  for (let i = 0; i < pattern.length; i++) {
-    const stroke_i = pattern[i];
-    for (let j = 0; j < stroke_i.length; j++) {
-      const diff = stroke_i[j][1] - yc;
-      sum_ += diff * diff;
-    }
-  }
-  return sum_;
-}
+// function mu02(pattern: Readonly<Array<TecackStroke>>, yc: number): number {
+//   let sum_: number = 0;
+//   for (let i = 0; i < pattern.length; i++) {
+//     const stroke_i = pattern[i];
+//     for (let j = 0; j < stroke_i.length; j++) {
+//       const diff = stroke_i[j][1] - yc;
+//       sum_ += diff * diff;
+//     }
+//   }
+//   return sum_;
+// }
 
 function aran(width: number, height: number): number {
   let r1: number = 0;
